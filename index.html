@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#05070b">
+  <title>GoldOffer Studio - Websites for local businesses</title>
+  <meta name="description" content="Pick your profession, add your offers with photos and prices, and publish a real website with its own public link. Free to start.">
+  <meta property="og:title" content="GoldOffer Studio - Websites for local businesses">
+  <meta property="og:description" content="A website your customers will trust. Free to start, live in minutes.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caveat:wght@600&family=Comfortaa:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Montserrat:wght@400;600;800&family=Oswald:wght@500;700&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --ink: #05070b; --deep: #0a0e15; --panel: #10151e; --raise: #171e2a;
+      --line: rgba(255,255,255,.09); --line2: rgba(255,255,255,.17);
+      --paper: #f1eee8; --soft: #c4cad5; --mute: #8b94a5;
+      --iris: #8b7bff; --lagoon: #4fe3cf; --amber: #ffb454; --danger: #ff7a7a;
+      --lt: #e9e9e6; --lt2: #f4f4f1; --ltext: #0b0e14; --lmute: #586070; --lline: rgba(10,14,20,.12);
+      --ta: #ffd700; --tb: #ff8c00; --tink: #b45309; --ton: #1a1a1a;
+      --pfont: 'Inter', sans-serif;
+      --display: 'Bricolage Grotesque', 'Inter', sans-serif;
+      --nav-h: 72px;
+    }
+    body.theme-gold { --ta:#ffd700; --tb:#ff8c00; --tink:#b45309; --ton:#1a1a1a; }
+    body.theme-neon-blue { --ta:#00f2fe; --tb:#4facfe; --tink:#0369a1; --ton:#06222e; }
+    body.theme-emerald { --ta:#00f5a0; --tb:#00d9f5; --tink:#047857; --ton:#06281c; }
+    body.theme-ruby { --ta:#ff0844; --tb:#ff7a59; --tink:#be123c; --ton:#ffffff; }
+    body.theme-purple-haze { --ta:#b300ff; --tb:#7928ca; --tink:#7e22ce; --ton:#ffffff; }
+    body.theme-sunset-orange { --ta:#ff4e00; --tb:#ec9f05; --tink:#c2410c; --ton:#ffffff; }
+    body.theme-cyber-pink { --ta:#ff007f; --tb:#7928ca; --tink:#be185d; --ton:#ffffff; }
+    body.theme-midnight-silver { --ta:#64748b; --tb:#1e293b; --tink:#334155; --ton:#ffffff; }
+    body.font-sans { --pfont: 'Inter', sans-serif; }
+    body.font-serif { --pfont: 'Playfair Display', serif; }
+    body.font-mono { --pfont: 'JetBrains Mono', monospace; }
+    body.font-display { --pfont: 'Oswald', sans-serif; }
+    body.font-script { --pfont: 'Caveat', cursive; }
+    body.font-rounded { --pfont: 'Comfortaa', cursive; }
+    body.font-geo { --pfont: 'Montserrat', sans-serif; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    button, input { font-family: inherit; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--ink); color: var(--paper); font-family: 'Inter', sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--lagoon); outline-offset: 3px; border-radius: 6px; }
+    h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -.025em; line-height: 1.06; }
+    .view { display: none; }
+    .view.active { display: block; animation: fadein .35s ease; }
+    @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+
+    .light { background: var(--lt2); color: var(--ltext); }
+    .light .lead2, .light p.muted { color: var(--lmute); }
+
+    /* reveal on scroll */
+    .rv { opacity: 0; transform: translateY(34px); transition: opacity .8s var(--d, 0ms), transform .8s var(--d, 0ms); }
+    .rv.shown { opacity: 1; transform: none; }
+
+    /* ---------- Buttons ---------- */
+    .btn { background: var(--paper); color: #0b0e14; border: 0; border-radius: 10px; padding: 12px 22px; font-weight: 600; font-size: .95rem; cursor: pointer; transition: background .15s, transform .15s; text-decoration: none; display: inline-block; text-align: center; }
+    .btn:hover { background: #fff; transform: translateY(-1px); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn-lg { padding: 15px 28px; font-size: 1rem; }
+    .btn-dark { background: #0b0e14; color: #fff; }
+    .btn-dark:hover { background: #1a2030; }
+    .btn-ghost { background: transparent; color: var(--paper); border: 1px solid var(--line2); border-radius: 10px; padding: 11px 18px; font-weight: 500; font-size: .92rem; cursor: pointer; transition: border-color .15s, background .15s; text-decoration: none; display: inline-block; text-align: center; }
+    .btn-ghost:hover { border-color: var(--paper); background: rgba(255,255,255,.05); }
+    .light .btn-ghost { color: var(--ltext); border-color: rgba(10,14,20,.25); }
+    .light .btn-ghost:hover { border-color: #0b0e14; background: rgba(10,14,20,.05); }
+    .btn-block { width: 100%; margin-top: 12px; display: block; }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid rgba(255,122,122,.35); border-radius: 8px; padding: 6px 12px; font-size: .8rem; font-weight: 500; cursor: pointer; }
+    .btn-danger:hover { background: rgba(255,122,122,.1); }
+    .link-btn { background: none; border: 0; color: var(--mute); text-decoration: underline; font-size: .88rem; margin-top: 14px; width: 100%; cursor: pointer; }
+    .link-btn:hover { color: var(--paper); }
+
+    /* ---------- Navigation (turns light over light sections) ---------- */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 80; height: var(--nav-h); transition: background .3s, border-color .3s, color .3s; border-bottom: 1px solid transparent; color: var(--paper); }
+    .nav:not(.solid):not(.menu-open):not(.open) { background: linear-gradient(180deg, rgba(5,7,11,.85), rgba(5,7,11,0)); }
+    .nav.solid, .nav.menu-open, .nav.open { background: rgba(5,7,11,.84); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom-color: var(--line); }
+    .nav.light { color: #0b0e14; }
+    .nav.light:not(.solid):not(.menu-open):not(.open) { background: linear-gradient(180deg, rgba(244,244,241,.9), rgba(244,244,241,0)); }
+    .nav.light.solid, .nav.light.menu-open, .nav.light.open { background: rgba(244,244,241,.88); border-bottom-color: var(--lline); }
+    .nav-in { height: 100%; max-width: 1360px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; gap: 36px; }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; font-family: var(--display); font-weight: 600; font-size: 1.22rem; letter-spacing: -.02em; flex-shrink: 0; }
+    .mark { width: 34px; height: 34px; flex-shrink: 0; }
+    .menu { display: flex; align-self: stretch; align-items: stretch; gap: 4px; }
+    .mi { display: flex; align-items: center; }
+    .mb, .ml { background: none; border: 0; color: inherit; opacity: .78; font-size: .96rem; font-weight: 500; padding: 0 14px; cursor: pointer; display: flex; align-items: center; text-decoration: none; height: 100%; transition: opacity .15s; }
+    .mb:hover, .ml:hover, .mi.open .mb, .ml.active { opacity: 1; }
+    .mb::after { content: ''; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-2px); margin-left: 9px; transition: transform .2s; }
+    .mi.open .mb::after { transform: rotate(225deg) translate(-1px, -1px); }
+    .nav-end { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .nav-end .who { opacity: .65; font-size: .88rem; margin-right: 4px; }
+    .nav-end .btn, .nav-end .btn-ghost { padding: 9px 18px; font-size: .9rem; }
+    .nav.light .nav-end .btn { background: #0b0e14; color: #fff; }
+    .nav.light .nav-end .btn-ghost { color: #0b0e14; border-color: rgba(10,14,20,.25); }
+    .burger { display: none; background: none; border: 1px solid var(--line2); border-radius: 10px; width: 42px; height: 42px; cursor: pointer; color: inherit; align-items: center; justify-content: center; }
+    .nav.light .burger { border-color: rgba(10,14,20,.25); }
+    .burger span, .burger span::before, .burger span::after { display: block; width: 18px; height: 1.5px; background: currentColor; position: relative; content: ''; }
+    .burger span::before { position: absolute; top: -6px; } .burger span::after { position: absolute; top: 6px; }
+
+    .mega { position: absolute; left: 0; right: 0; top: 100%; background: rgba(6,8,13,.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--line); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .18s, transform .18s, visibility .18s; }
+    .nav.light .mega { background: rgba(240,240,237,.98); border-bottom-color: var(--lline); }
+    .mi.open > .mega { opacity: 1; visibility: visible; transform: none; }
+    .mega-in { max-width: 1360px; margin: 0 auto; padding: 38px 28px 46px; display: grid; gap: 40px; grid-template-columns: 1fr 1fr 1.1fr 1.1fr; align-items: start; }
+    .mega-s { grid-template-columns: 1fr 1fr 1fr 1.1fr 1.1fr; }
+    .mcol h4 { font-weight: 500; font-size: .85rem; opacity: .55; margin-bottom: 16px; }
+    .mcol a { display: block; text-decoration: none; padding: 7px 0; font-family: var(--display); font-size: 1.28rem; font-weight: 500; letter-spacing: -.015em; cursor: pointer; transition: opacity .15s, transform .15s; }
+    .mcol a small { display: block; font-family: 'Inter', sans-serif; font-size: .8rem; font-weight: 400; opacity: .6; letter-spacing: 0; margin-top: 1px; }
+    .mcol a:hover { transform: translateX(3px); color: var(--lagoon); }
+    .nav.light .mcol a:hover { color: #3b2fd6; }
+    .mcard { display: block; text-decoration: none; background: rgba(255,255,255,.05); border: 1px solid var(--line); border-radius: 18px; padding: 10px; transition: transform .25s, background .25s; }
+    .nav.light .mcard { background: #fff; border-color: var(--lline); }
+    .mcard:hover { transform: translateY(-3px); }
+    .mcard .ph { height: 168px; border-radius: 12px; transition: transform .6s; }
+    .mcard span { display: block; padding: 12px 6px 4px; font-size: .92rem; font-weight: 500; }
+    .ph { background: var(--fb, linear-gradient(135deg, #2b3550, #141a2a)); background-size: cover; background-position: center; }
+
+    /* ---------- Hero scroll stage ---------- */
+    .stage-track { height: 340vh; position: relative; background: var(--ink); }
+    .stage-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 1900px;
+      --w: 100vw; --h: 100vh; --cy: 50; --r: 0px; --e: 0; --rx: 0deg;
+      background: radial-gradient(900px 560px at 50% 62%, rgba(139,123,255,.14), transparent 70%), var(--ink); }
+    .ghost { position: absolute; left: 50%; top: calc(var(--cy) * 1%); width: calc(var(--w) + 44px); height: calc(var(--h) + 44px); transform: translate(-50%, -50%) rotate(-1.3deg); border: 1px solid rgba(255,255,255,.3); border-radius: calc(var(--r) + 22px); opacity: calc(var(--e) * .9); pointer-events: none; }
+    .ghost.g2 { width: calc(var(--w) + 84px); height: calc(var(--h) + 70px); transform: translate(-50%, -50%) rotate(1deg); border-color: rgba(255,255,255,.16); border-radius: calc(var(--r) + 40px); }
+    .device { position: absolute; left: 50%; top: calc(var(--cy) * 1%); width: var(--w); height: var(--h); transform: translate(-50%, -50%) rotateX(var(--rx)); border-radius: var(--r); overflow: hidden; background: #0c1017; border: 1px solid rgba(255,255,255, calc(var(--e) * .18)); box-shadow: 0 40px 120px rgba(0,0,0,.65); display: flex; flex-direction: column; will-change: width, height; }
+    .dev-bar { height: calc(var(--e) * 40px); overflow: hidden; display: flex; align-items: center; gap: 7px; padding: 0 16px; background: #131a26; border-bottom: 1px solid var(--line); flex-shrink: 0; opacity: var(--e); }
+    .dev-bar i { width: 10px; height: 10px; border-radius: 50%; background: #2b3447; flex-shrink: 0; }
+    .dev-bar .url { margin-left: 10px; background: #0a0e15; color: var(--mute); border-radius: 7px; padding: 5px 14px; font-size: .74rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dev-screen { position: relative; flex: 1; overflow: hidden; container-type: inline-size; background: #eef2ee; }
+    .shade { position: absolute; inset: 0; z-index: 6; pointer-events: none; background: radial-gradient(75% 65% at 50% 50%, rgba(5,7,11,.95), rgba(5,7,11,.92)); opacity: calc(1 - var(--e) * .97); }
+    .stage-copy { position: absolute; z-index: 5; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; padding: 0 24px; will-change: opacity, transform; }
+    .stage-copy h1 { font-size: clamp(2.6rem, 6.6vw, 6rem); letter-spacing: -.04em; max-width: 15ch; margin: 0 auto 22px; }
+    .stage-copy p.lead { color: var(--soft); font-size: clamp(1rem, 1.5vw, 1.25rem); max-width: 52ch; margin: 0 auto 32px; }
+    .stage-copy .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .stage-copy .founder { margin-top: 34px; color: var(--mute); font-size: .88rem; }
+    .stage-copy .founder b { color: var(--soft); font-weight: 600; }
+    .scroll-hint { position: absolute; z-index: 5; bottom: 26px; left: 50%; transform: translateX(-50%); color: var(--mute); font-size: .8rem; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+    .scroll-hint::after { content: ''; width: 1px; height: 30px; background: linear-gradient(var(--mute), transparent); }
+    .stage-desc { position: absolute; z-index: 5; left: 50%; bottom: 7vh; transform: translateX(-50%); width: min(960px, 90vw); font-family: var(--display); font-size: clamp(1.45rem, 3vw, 2.7rem); line-height: 1.16; letter-spacing: -.025em; font-weight: 500; text-align: left; opacity: 0; }
+    .stage-desc .w { opacity: .18; }
+
+    /* the demo business site that plays inside the device, cycling through professions */
+    .mock-wrap { position: absolute; inset: 0; transition: opacity .45s; }
+    .mock-wrap.out { opacity: 0; }
+    .mock { opacity: calc(.4 + var(--e) * .6); position: absolute; left: 0; right: 0; top: 0; width: 100%; font-family: 'Inter', sans-serif; color: #1d2a24; animation: browse 24s ease-in-out infinite alternate; will-change: transform; }
+    @keyframes browse { 0%, 8% { transform: translateY(0); } 50%, 58% { transform: translateY(-18%); } 92%, 100% { transform: translateY(-34%); } }
+    .m-nav { opacity: var(--e); height: 7cqw; display: flex; align-items: center; justify-content: space-between; padding: 0 5cqw; background: #eef2ee; }
+    .m-nav b { font-size: 2.1cqw; font-weight: 700; letter-spacing: -.01em; }
+    .m-nav span { display: flex; gap: 3cqw; font-size: 1.5cqw; color: #4b5b52; }
+    .m-nav i { font-style: normal; }
+    .m-hero { position: relative; height: 46cqw; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 5cqw 5.5cqw; color: #fff; }
+    .m-hero .ph { position: absolute; inset: 0; }
+    .m-hero .ph::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,24,19,.1), rgba(10,14,12,.78)); }
+    .m-hero > *:not(.ph) { position: relative; z-index: 2; opacity: clamp(0, calc(var(--e) * 2.2), 1); }
+    .m-h1 { font-family: 'Inter', sans-serif; font-size: 6.4cqw; font-weight: 800; letter-spacing: -.04em; line-height: 1; width: fit-content; max-width: 90%; }
+    .m-sub { font-size: 1.9cqw; margin: 1.2cqw 0 2.4cqw; opacity: .92; }
+    .m-cta { width: fit-content; background: #f3c969; color: #1d2a24; font-weight: 700; font-size: 1.7cqw; padding: 1.3cqw 3cqw; border-radius: 99cqw; }
+    .m-title { font-size: 3.4cqw; font-weight: 800; letter-spacing: -.03em; padding: 6cqw 5cqw 2.6cqw; background: #eef2ee; }
+    .m-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6cqw; padding: 0 5cqw 3cqw; background: #eef2ee; }
+    .m-card { background: #fff; border-radius: 1.6cqw; padding: 0 0 2cqw; position: relative; }
+    .m-card .ph { height: 15cqw; border-radius: 1.6cqw 1.6cqw 0 0; }
+    .m-card h5 { font-size: 2cqw; font-weight: 700; padding: 1.6cqw 1.8cqw 0; }
+    .m-card p { font-size: 1.35cqw; color: #5b6b62; padding: .5cqw 1.8cqw 0; }
+    .m-card .row { display: flex; align-items: center; justify-content: space-between; padding: 1.4cqw 1.8cqw 0; }
+    .m-card .pr { font-size: 2.6cqw; font-weight: 800; color: #1d2a24; }
+    .m-card .rq { font-size: 1.3cqw; font-weight: 700; background: #1d2a24; color: #fff; padding: .9cqw 1.6cqw; border-radius: 99cqw; }
+    .m-foot { background: #16241d; color: #cfe0d6; padding: 5cqw; font-size: 1.7cqw; display: flex; justify-content: space-between; }
+    .m-foot b { color: #fff; font-size: 2.2cqw; }
+    .ann { position: relative; }
+    .ann::after { content: ''; position: absolute; inset: var(--i, -.9cqw); z-index: 4; border: .22cqw solid var(--c); background: color-mix(in srgb, var(--c) 13%, transparent); border-radius: .5cqw; pointer-events: none; opacity: clamp(0, calc((var(--e) - var(--s)) * 5), 1); }
+    .ann::before { content: attr(data-label); position: absolute; left: var(--i, -.9cqw); top: calc(var(--i, -.9cqw) - 2.3cqw); z-index: 5; background: var(--c); color: #07090d; letter-spacing: 0; text-transform: none; font: 600 1.2cqw/1 'Inter', sans-serif; padding: .55cqw .9cqw; border-radius: .4cqw; white-space: nowrap; pointer-events: none; opacity: clamp(0, calc((var(--e) - var(--s)) * 5), 1); }
+    .toast-wrap { position: absolute; inset: 0; z-index: 7; pointer-events: none; opacity: var(--e); }
+    .toast { position: absolute; right: 2.4cqw; bottom: 2.4cqw; background: #0d1219; color: #fff; border-radius: 1.4cqw; padding: 1.5cqw 2.2cqw; font-size: 1.5cqw; box-shadow: 0 2cqw 6cqw rgba(0,0,0,.4); display: flex; gap: 1.4cqw; align-items: center; opacity: 0; animation: toast 12s ease-in-out infinite; }
+    .toast::before { content: ''; width: 1.1cqw; height: 1.1cqw; border-radius: 50%; background: var(--lagoon); flex-shrink: 0; }
+    .toast small { display: block; color: var(--mute); font-size: 1.15cqw; }
+    @keyframes toast { 0%, 50% { opacity: 0; transform: translateY(2cqw); } 58%, 84% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: translateY(2cqw); } }
+    .prof-dots { position: absolute; z-index: 8; left: 50%; bottom: 3.2vh; transform: translateX(-50%); display: flex; gap: 8px; opacity: 0; transition: opacity .3s; }
+    .prof-dots i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.28); transition: background .3s, width .3s; }
+    .prof-dots i.on { background: #fff; width: 22px; border-radius: 6px; }
+
+    /* ---------- Home: statement + moving photos ---------- */
+    .statement { background: var(--ink); padding: 40px 24px 130px; }
+    .st-grid { max-width: 1360px; margin: 0 auto 28px; display: grid; grid-template-columns: 340px 1fr; gap: 28px; align-items: stretch; }
+    .annot { position: relative; border-radius: 20px; overflow: hidden; min-height: 300px; background: #0e131c; border: 1px solid var(--line); }
+    .annot .ph { position: absolute; inset: 0; opacity: .55; filter: grayscale(1) contrast(1.1); }
+    .mk { position: absolute; width: 11px; height: 11px; border: 1.5px solid rgba(255,255,255,.75); border-radius: 3px; animation: mkfloat 7s ease-in-out infinite alternate; }
+    .mk.tri { border: 0; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 11px solid rgba(255,255,255,.7); border-radius: 0; }
+    .mk.big { width: 26px; height: 26px; border-radius: 6px; border-color: #fff; background: rgba(255,255,255,.08); }
+    @keyframes mkfloat { 0% { transform: translate(0, 0); } 50% { transform: translate(14px, -10px); } 100% { transform: translate(-10px, 12px); } }
+    .st-card { background: #17352a; border-radius: 22px; padding: clamp(32px, 5vw, 64px); display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 300px; }
+    .st-card h2 { font-size: clamp(2rem, 4.2vw, 3.7rem); color: #e8e6df; max-width: 20ch; }
+    .st-card .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .scatter { position: relative; max-width: 1360px; margin: 0 auto; border-radius: 26px; background: #e8e8e5; height: 118vh; min-height: 760px; overflow: hidden; color: #0b0e14; }
+    .scatter .tile { position: absolute; border-radius: 14px; overflow: hidden; box-shadow: 0 20px 50px rgba(10,14,20,.18); will-change: transform; background-color: #c9ccd2; }
+    .scatter .tile span { position: absolute; left: 10px; bottom: 8px; font-size: .74rem; font-weight: 600; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+    .scatter .tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(5,7,11,.55)); }
+    .scatter .center { position: absolute; z-index: 5; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; width: min(720px, 86%); pointer-events: none; }
+    .scatter .center h2 { font-size: clamp(2.2rem, 5vw, 4.4rem); text-shadow: 0 0 40px rgba(232,232,229,.95), 0 0 20px rgba(232,232,229,.9); }
+    .scatter .center p { color: #3c4452; margin-top: 16px; font-size: 1.1rem; text-shadow: 0 0 20px rgba(232,232,229,.95); }
+
+    .counters { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--lline); margin-top: 40px; }
+    .counter { padding: 36px 24px 10px 0; border-right: 1px solid var(--lline); }
+    .counter:last-child { border-right: 0; }
+    .counter b { display: block; font-family: var(--display); font-size: clamp(3rem, 6vw, 5.4rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; }
+    .counter span { color: var(--lmute); font-size: .98rem; }
+    .lcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 70px; }
+    .lcard { position: relative; display: block; height: 420px; border-radius: 22px; overflow: hidden; text-decoration: none; color: #fff; }
+    .lcard .ph { position: absolute; inset: 0; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+    .lcard:hover .ph { transform: scale(1.07); }
+    .lcard::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(5,7,11,.88)); }
+    .lcard div.t { position: absolute; z-index: 1; left: 26px; right: 26px; bottom: 24px; }
+    .lcard h3 { font-size: 1.9rem; margin-bottom: 6px; }
+    .lcard p { color: #d6dbe4; font-size: .95rem; }
+    .cta-band { text-align: center; padding: 150px 24px; background: radial-gradient(900px 400px at 50% 100%, rgba(139,123,255,.28), transparent 70%), var(--ink); }
+    .cta-band h2 { font-size: clamp(2.4rem, 6vw, 5rem); max-width: 16ch; margin: 0 auto 30px; }
+
+    /* ---------- Generic sections / page heads ---------- */
+    .section { max-width: 1240px; margin: 0 auto; padding: 120px 28px; }
+    .page-head { max-width: 1240px; margin: 0 auto; padding: calc(var(--nav-h) + 84px) 28px 56px; }
+    .page-head h1 { font-size: clamp(2.6rem, 6.4vw, 5.4rem); letter-spacing: -.04em; max-width: 16ch; margin-bottom: 22px; }
+    .page-head p { font-size: 1.18rem; max-width: 56ch; color: var(--soft); }
+    .light .page-head p { color: var(--lmute); }
+    .section-head { max-width: 760px; margin-bottom: 56px; }
+    .section-head h2 { font-size: clamp(2.2rem, 4.8vw, 3.9rem); margin-bottom: 18px; }
+    .section-head p { color: var(--soft); font-size: 1.12rem; max-width: 56ch; }
+    .light .section-head p { color: var(--lmute); }
+
+    .steps { display: flex; flex-direction: column; max-width: 980px; }
+    .st { display: grid; grid-template-columns: 70px 1fr; gap: 24px; padding: 40px 0; border-top: 1px solid var(--lline); }
+    .st:last-child { border-bottom: 1px solid var(--lline); }
+    .st .n { font-family: var(--display); font-size: 2.6rem; color: #9aa1ad; line-height: 1; transition: color .5s; }
+    .st.shown .n { color: #0b0e14; }
+    .st h3 { font-size: 2rem; margin-bottom: 10px; }
+    .st p { color: var(--lmute); max-width: 52ch; margin-bottom: 22px; font-size: 1.05rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { border: 1px solid rgba(10,14,20,.22); border-radius: 99px; padding: 6px 14px; font-size: .86rem; color: var(--lmute); }
+    .chip.on { background: #0b0e14; color: #fff; border-color: #0b0e14; }
+    .dots { display: flex; gap: 8px; }
+    .dots i { width: 34px; height: 34px; border-radius: 10px; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--lline); }
+    .dots i.sel { box-shadow: 0 0 0 2px #0b0e14; }
+    .mini-row { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid var(--lline); border-radius: 12px; padding: 12px 16px; font-size: .92rem; max-width: 420px; }
+    .mini-row b { font-weight: 600; } .mini-row span { color: #0a7a6d; font-weight: 700; }
+    .urlpill { display: inline-block; background: #fff; border: 1px solid var(--lline); border-radius: 10px; padding: 11px 18px; font-size: .92rem; color: var(--lmute); }
+    .urlpill b { color: #0b0e14; font-weight: 600; }
+
+    .marq { overflow: hidden; display: flex; flex-direction: column; gap: 16px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .marq-row { display: flex; gap: 16px; width: max-content; animation: slide 90s linear infinite; }
+    .marq-row.rev { animation-direction: reverse; animation-duration: 110s; }
+    .marq:hover .marq-row { animation-play-state: paused; }
+    @keyframes slide { to { transform: translateX(-50%); } }
+    .pcard, .gtile { position: relative; flex: 0 0 auto; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); cursor: pointer; background: none; color: var(--paper); text-align: left; padding: 0; }
+    .pcard { width: 250px; height: 320px; }
+    .pcard .ph, .gtile .ph { position: absolute; inset: 0; transition: transform .6s; }
+    .pcard:hover .ph, .gtile:hover .ph { transform: scale(1.06); }
+    .pcard::after, .gtile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(5,7,11,.92)); }
+    .pcard span, .gtile span { position: absolute; z-index: 1; left: 16px; right: 16px; bottom: 14px; font-family: var(--display); font-size: 1.25rem; font-weight: 500; line-height: 1.1; }
+    .gsearch { max-width: 520px; margin-bottom: 28px; }
+    .ggrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .gtile { height: 250px; width: 100%; }
+
+    .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+    .bx { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 32px; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+    .bx h3 { font-size: 1.55rem; margin-bottom: 8px; }
+    .bx p { color: var(--soft); font-size: .98rem; max-width: 40ch; }
+    .bx .vis { margin-top: auto; padding-top: 28px; }
+    .b1 { grid-column: span 4; } .b2 { grid-column: span 2; } .b3 { grid-column: span 2; } .b4 { grid-column: span 2; } .b5 { grid-column: span 2; }
+    .offer-demo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .od { background: var(--raise); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+    .od .ph { height: 96px; } .od div { padding: 11px 13px; font-size: .85rem; } .od b { display: block; font-weight: 600; } .od span { color: var(--lagoon); font-weight: 600; }
+    .range-demo { background: var(--raise); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+    .range-demo small { color: var(--mute); font-size: .78rem; }
+    .range-bar { height: 8px; border-radius: 9px; background: var(--line); margin: 16px 0 10px; position: relative; }
+    .range-bar i { position: absolute; left: 18%; right: 22%; top: 0; bottom: 0; border-radius: 9px; background: linear-gradient(90deg, var(--iris), var(--lagoon)); }
+    .range-bar u { position: absolute; left: 52%; top: -4px; width: 3px; height: 16px; background: #fff; border-radius: 2px; }
+    .range-nums { display: flex; justify-content: space-between; font-size: .85rem; color: var(--soft); }
+    .bars { display: flex; align-items: flex-end; gap: 8px; height: 92px; }
+    .bars i { flex: 1; border-radius: 6px 6px 2px 2px; background: linear-gradient(180deg, var(--iris), rgba(139,123,255,.25)); transform-origin: bottom; animation: grow 2.4s ease-in-out infinite alternate; }
+    .bars i:nth-child(2n) { animation-delay: .3s; } .bars i:nth-child(3n) { animation-delay: .6s; }
+    @keyframes grow { from { transform: scaleY(.55); } to { transform: scaleY(1); } }
+    .look-demo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .look-demo i { height: 38px; border-radius: 10px; }
+
+    .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 920px; }
+    .plan { border: 1px solid var(--lline); border-radius: 22px; padding: 38px; background: #fff; display: flex; flex-direction: column; }
+    .plan.pro { background: #0b0e14; color: #fff; border-color: #0b0e14; }
+    .plan h3 { font-size: 1.4rem; margin-bottom: 18px; font-weight: 500; }
+    .plan .price { font-family: var(--display); font-size: 3.6rem; letter-spacing: -.04em; line-height: 1; font-weight: 600; }
+    .plan .price small { font-family: 'Inter', sans-serif; font-size: 1rem; opacity: .6; letter-spacing: 0; font-weight: 400; }
+    .plan .sub2 { opacity: .6; font-size: .92rem; margin: 10px 0 26px; min-height: 1.4em; }
+    .plan ul { list-style: none; margin-bottom: 30px; flex: 1; }
+    .plan li { padding: 10px 0; border-top: 1px solid var(--lline); font-size: .96rem; }
+    .plan.pro li { border-top-color: rgba(255,255,255,.14); }
+    .plan.pro .btn { background: #fff; color: #0b0e14; }
+    .price-note { color: var(--lmute); font-size: .88rem; margin-top: 22px; max-width: 70ch; }
+    .faq { max-width: 920px; margin-top: 80px; }
+    .faq h2 { font-size: 2.2rem; margin-bottom: 20px; }
+    .faq details { border-top: 1px solid var(--lline); padding: 20px 0; }
+    .faq details:last-child { border-bottom: 1px solid var(--lline); }
+    .faq summary { cursor: pointer; font-family: var(--display); font-size: 1.3rem; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 20px; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: '+'; font-size: 1.6rem; line-height: 1; transition: transform .25s; }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq details p { color: var(--lmute); margin-top: 12px; max-width: 64ch; }
+
+    .about { display: grid; grid-template-columns: 1.1fr 1fr; gap: 72px; align-items: start; }
+    .about h2 { font-size: clamp(2.2rem, 4.6vw, 3.7rem); margin-bottom: 26px; }
+    .about p { color: var(--soft); font-size: 1.12rem; margin-bottom: 18px; max-width: 54ch; }
+    .about blockquote { font-family: var(--display); font-size: clamp(1.4rem, 2.4vw, 2rem); font-weight: 500; line-height: 1.2; letter-spacing: -.02em; margin: 34px 0 0; padding-left: 22px; border-left: 2px solid var(--iris); max-width: 24ch; }
+    .person { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 34px; }
+    .person .top { display: flex; align-items: center; gap: 18px; margin-bottom: 28px; }
+    .avatar { width: 68px; height: 68px; border-radius: 50%; background: linear-gradient(135deg, var(--iris), var(--lagoon)); color: #07090d; font-family: var(--display); font-weight: 700; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .person .top b { display: block; font-family: var(--display); font-size: 1.5rem; font-weight: 600; letter-spacing: -.02em; }
+    .person .top span { color: var(--mute); font-size: .92rem; }
+    .contact { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+    .contact a { display: flex; justify-content: space-between; align-items: center; gap: 14px; text-decoration: none; padding: 18px 0; border-bottom: 1px solid var(--line); transition: color .15s; }
+    .contact a:hover { color: var(--lagoon); }
+    .contact small { color: var(--mute); font-size: .8rem; display: block; }
+    .contact b { font-weight: 500; font-size: 1.05rem; word-break: break-all; }
+    .contact em { font-style: normal; color: var(--mute); font-size: .85rem; }
+    .ccards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 980px; }
+    .ccard { display: block; text-decoration: none; background: #fff; border: 1px solid var(--lline); border-radius: 22px; padding: 38px; transition: transform .25s, box-shadow .25s; }
+    .ccard:hover { transform: translateY(-4px); box-shadow: 0 24px 60px rgba(10,14,20,.12); }
+    .ccard small { color: var(--lmute); font-size: .86rem; }
+    .ccard b { display: block; font-family: var(--display); font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -.02em; font-weight: 600; margin: 8px 0 24px; word-break: break-all; }
+    .ccard em { font-style: normal; font-weight: 600; font-size: .92rem; }
+    .tips { max-width: 980px; margin-top: 70px; }
+    .tips h2 { font-size: 2rem; margin-bottom: 18px; }
+    .tips li { list-style: none; padding: 16px 0; border-top: 1px solid var(--lline); color: var(--lmute); font-size: 1.02rem; }
+    .tips li:last-child { border-bottom: 1px solid var(--lline); }
+
+    /* ---------- Builder ---------- */
+    .layout { display: grid; grid-template-columns: 1fr 420px; gap: 28px; align-items: start; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 34px; position: relative; }
+    .card h2 { font-size: 1.7rem; margin-bottom: 8px; letter-spacing: -.025em; }
+    .sub { color: var(--soft); margin-bottom: 24px; font-size: .96rem; line-height: 1.55; }
+    .nodes { display: flex; justify-content: space-between; position: relative; margin-bottom: 28px; }
+    .nodes::before { content: ''; position: absolute; top: 50%; left: 18px; right: 18px; height: 1px; background: var(--line2); transform: translateY(-50%); }
+    .node { width: 36px; height: 36px; border-radius: 50%; background: var(--panel); border: 1px solid var(--line2); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: .85rem; color: var(--mute); position: relative; z-index: 1; }
+    .node.active { background: var(--paper); border-color: var(--paper); color: #0b0e14; }
+    .node.done { border-color: var(--lagoon); color: var(--lagoon); }
+    .step { display: none; }
+    .step.active { display: block; animation: rise .3s ease; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    label { display: block; font-size: .84rem; color: var(--mute); margin-bottom: 7px; font-weight: 500; }
+    input[type=text], input[type=email], input[type=password], input[type=number], input[type=file] { width: 100%; padding: 13px 15px; background: var(--ink); border: 1px solid var(--line2); border-radius: 12px; color: var(--paper); font-size: .95rem; outline: none; transition: border-color .15s, box-shadow .15s; }
+    input::placeholder { color: #5f697a; }
+    input:focus { border-color: var(--iris); box-shadow: 0 0 0 4px rgba(139,123,255,.2); }
+    input[type=file]::file-selector-button { background: var(--raise); color: var(--paper); border: 1px solid var(--line2); border-radius: 8px; padding: 6px 12px; margin-right: 12px; cursor: pointer; }
+    .field { margin-bottom: 16px; }
+    .search-wrap { position: relative; margin-bottom: 12px; }
+    .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--mute); }
+    .search-wrap input { padding-left: 42px; }
+    .prof-scroll { max-height: 380px; overflow-y: auto; margin: 0 0 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--ink); padding: 12px; }
+    .prof-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .prof { background: var(--raise); border: 2px solid transparent; border-radius: 14px; overflow: hidden; cursor: pointer; text-align: left; padding: 0; color: var(--paper); transition: transform .15s, border-color .15s; }
+    .prof:hover { transform: translateY(-2px); border-color: var(--line2); }
+    .prof.selected { border-color: var(--lagoon); }
+    .prof .pic { height: 86px; background: linear-gradient(135deg, #2b3550, #141a2a); display: flex; align-items: center; justify-content: center; color: var(--soft); font-weight: 700; font-size: 1.6rem; }
+    .prof .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .prof .name { padding: 9px 11px; font-size: .84rem; font-weight: 500; line-height: 1.25; }
+    .no-match { text-align: center; padding: 22px 10px; color: var(--mute); font-size: .9rem; }
+    .selected-line { font-size: .88rem; color: var(--mute); margin-bottom: 8px; }
+    .selected-line b { color: var(--lagoon); font-weight: 600; }
+    .swatches { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; margin-bottom: 22px; }
+    @media (max-width: 520px) { .swatches { grid-template-columns: repeat(4, 1fr); } }
+    .sw { height: 40px; border-radius: 10px; border: 3px solid var(--panel); box-shadow: 0 0 0 1px var(--line2); cursor: pointer; }
+    .sw.selected { box-shadow: 0 0 0 2px var(--paper); }
+    .fonts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+    .fbtn { background: var(--ink); border: 1px solid var(--line2); border-radius: 12px; padding: 12px; cursor: pointer; text-align: center; color: var(--paper); }
+    .fbtn span { display: block; font-size: 1.15rem; margin-bottom: 2px; }
+    .fbtn small { color: var(--mute); font-size: .74rem; }
+    .fbtn.selected { border-color: var(--paper); }
+    .offer-row { background: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .offer-row b { display: block; font-size: .95rem; font-weight: 600; }
+    .offer-row small { color: var(--lagoon); font-weight: 600; }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .range { font-size: .84rem; color: var(--soft); border-left: 2px solid var(--iris); padding: 4px 12px; margin: 10px 0 12px; display: none; }
+    .add-box { border: 1px dashed var(--line2); border-radius: 14px; padding: 18px; margin-top: 14px; background: rgba(255,255,255,.015); }
+    .note { font-size: .84rem; color: var(--mute); line-height: 1.55; margin-top: 12px; }
+    .url-box { background: var(--ink); border: 1px solid var(--line2); border-radius: 12px; padding: 14px; word-break: break-all; margin: 10px 0 14px; font-weight: 600; }
+    .url-box a { color: var(--lagoon); }
+    .thumb { position: relative; display: inline-block; margin-top: 8px; }
+    .thumb img { height: 96px; max-width: 220px; border-radius: 10px; display: block; object-fit: cover; border: 1px solid var(--line2); }
+    .thumb.sm { margin: 0 12px 0 0; } .thumb.sm img { height: 52px; width: 52px; }
+    .thumb .x { position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--panel); background: #dc2626; color: #fff; cursor: pointer; font-size: 15px; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0; }
+    .thumb .x:hover { background: #b91c1c; }
+    .preview { position: sticky; top: calc(var(--nav-h) + 24px); background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 14px; }
+    .pbar { display: flex; align-items: center; gap: 6px; padding: 4px 6px 12px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #2b3447; }
+    .pbar .url { margin-left: 10px; flex: 1; background: var(--ink); border-radius: 8px; font-size: .72rem; color: var(--mute); padding: 5px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .screen { background: #0a0c11; border: 1px solid var(--line); border-radius: 14px; min-height: 380px; overflow: hidden; font-family: var(--pfont); color: #fff; }
+    .screen .top { padding: 34px 18px 28px; text-align: center; background: radial-gradient(120% 150% at 12% 0%, color-mix(in srgb, var(--ta) 52%, transparent), transparent 62%), radial-gradient(100% 130% at 100% 15%, color-mix(in srgb, var(--tb) 42%, transparent), transparent 64%), #0a0c11; }
+    .screen .top h3 { font-family: inherit; font-size: 1.5rem; letter-spacing: -.02em; line-height: 1.1; }
+    .screen .top p { font-size: .8rem; color: #c9ced8; margin-top: 6px; }
+    .screen .body { padding: 14px; max-height: 360px; overflow-y: auto; }
+    .p-item { background: #11151d; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 10px; margin-bottom: 10px; }
+    .p-item img { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; }
+    .p-item h5 { font-size: .92rem; font-family: inherit; }
+    .p-item .price { color: var(--ta); font-weight: 800; font-size: .98rem; margin: 2px 0; }
+    .p-item p { color: #9aa3b2; font-size: .78rem; }
+    .empty { color: #8b94a5; text-align: center; font-size: .85rem; padding: 50px 10px; line-height: 1.6; }
+
+    /* footer */
+    .foot { border-top: 1px solid var(--line); background: var(--ink); }
+    body[data-page=dashboard] .foot { display: none; }
+    .foot-in { max-width: 1240px; margin: 0 auto; padding: 64px 28px 40px; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+    .foot .brand { margin-bottom: 14px; }
+    .foot p { color: var(--mute); font-size: .92rem; max-width: 34ch; }
+    .foot h4 { font-weight: 500; color: var(--mute); font-size: .85rem; margin-bottom: 14px; }
+    .foot a { display: block; text-decoration: none; color: var(--soft); padding: 5px 0; font-size: .95rem; cursor: pointer; }
+    .foot a:hover { color: #fff; }
+    .foot-end { max-width: 1240px; margin: 0 auto; padding: 0 28px 40px; color: var(--mute); font-size: .84rem; }
+
+    /* dashboard */
+    .dash { max-width: 1240px; margin: 0 auto; padding: calc(var(--nav-h) + 56px) 28px 100px; min-height: 100vh; }
+    .dash h1 { font-size: 2.6rem; margin-bottom: 28px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-bottom: 16px; }
+    .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
+    .stat h3 { font-family: 'Inter', sans-serif; font-size: .86rem; color: var(--mute); margin-bottom: 12px; font-weight: 500; letter-spacing: 0; }
+    .stat .v { font-family: var(--display); font-size: 2.3rem; font-weight: 600; letter-spacing: -.03em; }
+    .dash-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
+    .panel h2 { font-size: 1.2rem; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    th, td { text-align: left; padding: 11px 6px; border-bottom: 1px solid var(--line); }
+    th { color: var(--mute); font-size: .8rem; font-weight: 500; }
+    .pill { padding: 3px 10px; border-radius: 999px; font-size: .74rem; font-weight: 600; background: var(--raise); }
+    .pill.Completed { background: rgba(79,227,207,.14); color: var(--lagoon); }
+    .pill.Pending { background: rgba(255,180,84,.14); color: var(--amber); }
+
+    .modal { display: none; position: fixed; inset: 0; background: rgba(2,3,6,.7); backdrop-filter: blur(6px); justify-content: center; align-items: center; padding: 20px; z-index: 120; }
+    .modal-box { background: var(--panel); border: 1px solid var(--line2); border-radius: 20px; padding: 32px; width: 100%; max-width: 430px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 30px 90px rgba(0,0,0,.6); color: var(--paper); }
+    .modal-box h3 { margin-bottom: 18px; font-size: 1.6rem; }
+    .close { position: absolute; right: 16px; top: 10px; font-size: 1.6rem; color: var(--mute); background: none; border: 0; cursor: pointer; }
+    .close:hover { color: #fff; }
+    .err { color: var(--danger); font-size: .85rem; min-height: 1.2em; margin-top: 6px; }
+
+    /* checkbox, forgot link, light-page forms, legal pages */
+    .check { display: flex; gap: 10px; align-items: flex-start; font-size: .86rem; color: var(--soft); margin: 4px 0 10px; line-height: 1.45; cursor: pointer; }
+    .check input { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--lagoon); cursor: pointer; }
+    .check a { color: var(--lagoon); }
+    .forgot { text-align: right; margin: -4px 0 8px; width: auto; display: block; margin-left: auto; font-size: .84rem; }
+    .light input[type=text], .light input[type=email], .light input[type=password] { background: #fff; color: #0b0e14; border-color: var(--lline); }
+    .light label { color: var(--lmute); }
+    .resetbox { max-width: 460px; background: #fff; border: 1px solid var(--lline); border-radius: 22px; padding: 32px; }
+    .legal { max-width: 800px; }
+    .legal h2 { font-size: 1.5rem; margin: 34px 0 10px; }
+    .legal p, .legal li { color: var(--lmute); font-size: 1.02rem; margin-bottom: 10px; }
+    .legal ul { padding-left: 22px; margin-bottom: 10px; }
+    .legal a { color: #3b2fd6; }
+    .lsw { display: flex; gap: 8px; margin-top: 22px; }
+    .lsw button { background: transparent; border: 1px solid rgba(10,14,20,.25); border-radius: 99px; padding: 7px 16px; cursor: pointer; font-weight: 500; color: var(--ltext); }
+    body[data-lang=bg] .lsw button:first-child, body[data-lang=en] .lsw button:last-child { background: #0b0e14; color: #fff; border-color: #0b0e14; }
+    body[data-lang=bg] [data-l=en], body[data-lang=en] [data-l=bg] { display: none; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1100px) {
+      .about { grid-template-columns: 1fr; gap: 44px; }
+      .bento { grid-template-columns: repeat(2, 1fr); } .b1 { grid-column: span 2; } .b2, .b3, .b4, .b5 { grid-column: span 1; }
+      .mega-in, .mega-s { grid-template-columns: repeat(3, 1fr); } .mcard { display: none; }
+      .st-grid { grid-template-columns: 1fr; } .annot { min-height: 220px; }
+      .lcards { grid-template-columns: 1fr; } .lcard { height: 300px; }
+      .counters { grid-template-columns: repeat(2, 1fr); } .counter:nth-child(2) { border-right: 0; }
+    }
+    @media (max-width: 980px) { .layout { grid-template-columns: 1fr; } .preview { position: static; } .dash-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) {
+      :root { --nav-h: 64px; }
+      .nav-in { padding: 0 18px; gap: 12px; }
+      .burger { display: flex; margin-left: 8px; }
+      .menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(5,7,11,.98); border-bottom: 1px solid var(--line); padding: 8px 18px 18px; max-height: calc(100vh - var(--nav-h)); overflow-y: auto; align-self: auto; }
+      .nav.light .menu { background: rgba(244,244,241,.99); border-bottom-color: var(--lline); }
+      .nav.open .menu { display: flex; }
+      .mi { flex-direction: column; align-items: stretch; }
+      .mb, .ml { height: auto; padding: 14px 4px; font-size: 1.05rem; justify-content: space-between; border-bottom: 1px solid var(--line); opacity: 1; }
+      .nav.light .mb, .nav.light .ml { border-bottom-color: var(--lline); }
+      .mega { position: static; opacity: 1; visibility: visible; transform: none; display: none; background: none !important; border: 0 !important; backdrop-filter: none; }
+      .mi.open > .mega { display: block; }
+      .mega-in, .mega-s { padding: 14px 4px 8px; gap: 8px; grid-template-columns: 1fr !important; }
+      .nav-end .who { display: none; }
+      .section { padding: 84px 20px; }
+      .page-head { padding: calc(var(--nav-h) + 50px) 20px 36px; }
+      .plans, .ccards { grid-template-columns: 1fr; }
+      .foot-in { grid-template-columns: 1fr 1fr; }
+      .st { grid-template-columns: 44px 1fr; gap: 14px; }
+      .scatter { height: 90vh; min-height: 560px; }
+    }
+    @media (max-width: 700px) { .stage-desc { bottom: auto; top: 49%; } }
+    @media (max-width: 520px) {
+      .brand span { display: none; }
+      .nav-in { gap: 8px; }
+      .nav-end .btn, .nav-end .btn-ghost { padding: 8px 12px; font-size: .84rem; white-space: nowrap; }
+      .burger { margin-left: 4px; width: 40px; height: 40px; flex-shrink: 0; }
+      .foot-in { grid-template-columns: 1fr; }
+      .dash { padding-inline: 18px; }
+    }
+    @media (max-width: 640px) {
+      .offer-demo { grid-template-columns: 1fr 1fr; } .offer-demo .od:nth-child(3) { display: none; }
+      .card { padding: 24px; } .stage-track { height: 300vh; }
+      .pcard { width: 200px; height: 270px; }
+      .bx { padding: 24px; }
+      .statement { padding-inline: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mock, .toast, .marq-row, .mk, .bars i { animation: none !important; }
+      .rv { opacity: 1; transform: none; }
+      .toast { opacity: 1; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body class="theme-gold font-sans" id="top" data-page="home">
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" data-link aria-label="GoldOffer Studio, home">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b7bff"/><stop offset="1" stop-color="#4fe3cf"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#bg1)"/><text x="32" y="47" font-size="40" font-weight="800" text-anchor="middle" fill="#07090d" font-family="Arial, Helvetica, sans-serif">G</text></svg>
+      <span>GoldOffer Studio</span>
+    </a>
+
+    <nav class="menu" id="menu" aria-label="Main">
+      <div class="mi" data-menu>
+        <button class="mb" type="button" aria-expanded="false" aria-haspopup="true">Product</button>
+        <div class="mega"><div class="mega-in">
+          <div class="mcol"><h4>Product</h4>
+            <a href="/how-it-works" data-link>How it works<small>Four steps to a live site</small></a>
+            <a href="/features" data-link>Features<small>Offers, photos, requests</small></a>
+            <a href="/pricing" data-link>Pricing<small>Free to start</small></a>
+          </div>
+          <div class="mcol"><h4>Tools</h4>
+            <a href="/build" data-link>Website builder<small>Build and publish</small></a>
+            <a href="/dashboard" data-link>Dashboard<small>Requests and revenue</small></a>
+            <a href="/professions" data-link>Professions<small>50 to start from</small></a>
+          </div>
+          <a class="mcard" href="/how-it-works" data-link><div class="ph" data-photo="Bakery"></div><span>See how a site gets built</span></a>
+          <a class="mcard" href="/professions" data-link><div class="ph" data-photo="Barber"></div><span>Find your profession</span></a>
+        </div></div>
+      </div>
+
+      <div class="mi" data-menu>
+        <button class="mb" type="button" aria-expanded="false" aria-haspopup="true">Solutions</button>
+        <div class="mega"><div class="mega-in mega-s">
+          <div class="mcol"><h4>Food and drink</h4>
+            <a href="/build" data-link data-prof="Bakery">Bakery</a><a href="/build" data-link data-prof="Restaurant">Restaurant</a><a href="/build" data-link data-prof="Cafe">Cafe</a></div>
+          <div class="mcol"><h4>Beauty and health</h4>
+            <a href="/build" data-link data-prof="Barber">Barber</a><a href="/build" data-link data-prof="Hairdresser">Hairdresser</a><a href="/build" data-link data-prof="Dentist">Dentist</a></div>
+          <div class="mcol"><h4>Trades and services</h4>
+            <a href="/build" data-link data-prof="Plumber">Plumber</a><a href="/build" data-link data-prof="Electrician">Electrician</a><a href="/build" data-link data-prof="Auto mechanic">Auto mechanic</a></div>
+          <a class="mcard" href="/professions" data-link><div class="ph" data-photo="Florist"></div><span>All 50 professions</span></a>
+          <a class="mcard" href="/build" data-link><div class="ph" data-photo="Photographer"></div><span>Not listed? Type your own</span></a>
+        </div></div>
+      </div>
+
+      <div class="mi" data-menu>
+        <button class="mb" type="button" aria-expanded="false" aria-haspopup="true">Company</button>
+        <div class="mega"><div class="mega-in">
+          <div class="mcol"><h4>GoldOffer Studio</h4>
+            <a href="/about" data-link>About<small>Who builds this</small></a>
+            <a href="/contact" data-link>Contact<small>Email and phone</small></a>
+          </div>
+          <div class="mcol"><h4>Start</h4>
+            <a href="/build" data-link>Build your site<small>Free, no card</small></a>
+            <a href="/pricing" data-link>Pricing<small>Free and Pro</small></a>
+          </div>
+          <a class="mcard" href="/about" data-link><div class="ph" data-photo="Tailor"></div><span>Built for local businesses</span></a>
+          <a class="mcard" href="/contact" data-link><div class="ph" data-photo="Cafe"></div><span>Talk to the founder</span></a>
+        </div></div>
+      </div>
+
+      <div class="mi"><a class="ml" href="/pricing" data-link>Pricing</a></div>
+    </nav>
+
+    <div class="nav-end"><span id="authArea" class="row" style="flex-wrap:nowrap"></span></div>
+    <button class="burger" id="burger" type="button" aria-label="Open menu" onclick="toggleBurger()"><span></span></button>
+  </div>
+</header>
+
+<!-- =================== HOME =================== -->
+<main class="view active" id="v-home">
+
+  <section class="stage-track" id="stageTrack" data-nav="dark" aria-label="Introduction">
+    <div class="stage-sticky" id="stageSticky">
+      <div class="ghost"></div><div class="ghost g2"></div>
+
+      <div class="device" id="device" aria-hidden="true">
+        <div class="dev-bar"><i></i><i></i><i></i><span class="url" id="devUrl">goldoffer.onrender.com/site/your-business</span></div>
+        <div class="dev-screen">
+          <div class="mock-wrap" id="mockWrap">
+            <div class="mock">
+              <div class="m-nav"><b id="mkName"></b><span><i>Offers</i><i>About</i><i>Contact</i></span></div>
+              <div class="m-hero ann" style="--c:var(--iris);--s:.22;--i:1.4cqw" data-label="Hero photo">
+                <div class="ph" id="mkHero"></div>
+                <div class="m-h1 ann" id="mkH1" style="--c:var(--amber);--s:.4" data-label="Business name"></div>
+                <div class="m-sub" id="mkSub"></div>
+                <div class="m-cta ann" style="--c:var(--lagoon);--s:.7" data-label="Request button">Request an offer</div>
+              </div>
+              <div class="m-title">Offers</div>
+              <div class="m-grid" id="mkGrid"></div>
+              <div class="m-foot"><div><b id="mkFoot"></b><br><span id="mkMeta"></span></div><div>Website made with GoldOffer Studio</div></div>
+            </div>
+            <div class="toast-wrap"><div class="toast"><div>New request<small id="mkToast"></small></div></div></div>
+          </div>
+          <div class="shade"></div>
+        </div>
+      </div>
+
+      <div class="stage-copy" id="stageCopy">
+        <h1>A website your customers will trust.</h1>
+        <p class="lead">Pick your profession, add your offers with photos and prices, and publish a real website with its own public link. Free to start.</p>
+        <div class="cta-row">
+          <button class="btn btn-lg" type="button" onclick="cta()">Start building</button>
+          <a class="btn-ghost btn-lg" href="/how-it-works" data-link style="padding:15px 26px;font-size:1rem">See how it works</a>
+        </div>
+        <p class="founder"><b>Rayan Katsarov, founder.</b> &ldquo;A real website should bring customers, not headaches.&rdquo;</p>
+      </div>
+
+      <p class="stage-desc" id="stageDesc">Customers decide in seconds whether a business is real. GoldOffer gives yours real photos, clear prices and a request form that sends every inquiry straight to you.</p>
+      <div class="prof-dots" id="profDots"></div>
+      <div class="scroll-hint" id="scrollHint">Scroll</div>
+    </div>
+  </section>
+
+  <section class="statement" data-nav="dark">
+    <div class="st-grid">
+      <div class="annot rv" id="annot" aria-hidden="true">
+        <div class="ph" data-photo="Barber"></div>
+      </div>
+      <div class="st-card rv">
+        <h2>Every small business deserves a website that looks as real as it is.</h2>
+        <div class="row"><button class="btn" type="button" onclick="cta()">Start building</button><a class="btn-ghost" href="/professions" data-link>Browse professions</a></div>
+      </div>
+    </div>
+    <div class="scatter" id="scatter">
+      <div class="center"><h2>Real photos. Real prices. A real link.</h2><p>Your offers, in front of customers, in minutes.</p></div>
+    </div>
+  </section>
+
+  <section class="light" data-nav="light">
+    <div class="section">
+      <div class="section-head rv"><h2>Small to start. Built to look serious.</h2><p>Everything you need is already inside, so you spend the time on your business, not on your website.</p></div>
+      <div class="counters rv">
+        <div class="counter"><b><span data-to="50">0</span></b><span>professions to start from</span></div>
+        <div class="counter"><b><span data-to="8">0</span></b><span>color themes</span></div>
+        <div class="counter"><b><span data-to="7">0</span></b><span>font styles</span></div>
+        <div class="counter"><b><span data-to="10">0</span></b><span>offers on the free plan</span></div>
+      </div>
+      <div class="lcards">
+        <a class="lcard rv" href="/how-it-works" data-link><div class="ph" data-photo="Bakery"></div><div class="t"><h3>How it works</h3><p>Four steps from nothing to a live site.</p></div></a>
+        <a class="lcard rv" href="/professions" data-link style="--d:90ms"><div class="ph" data-photo="Barber"></div><div class="t"><h3>Professions</h3><p>Start from yours, or type your own.</p></div></a>
+        <a class="lcard rv" href="/pricing" data-link style="--d:180ms"><div class="ph" data-photo="Florist"></div><div class="t"><h3>Pricing</h3><p>Free to start. Pay only when you grow.</p></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" data-nav="dark">
+    <h2 class="rv">Your website, live today.</h2>
+    <button class="btn btn-lg rv" type="button" onclick="cta()" style="--d:120ms">Start building, it is free</button>
+  </section>
+</main>
+
+<!-- =================== HOW IT WORKS =================== -->
+<main class="view" id="v-how">
+  <div class="light" data-nav="light" style="min-height:100vh">
+    <div class="page-head"><h1>From nothing to a live website in four steps.</h1><p>No designer, no code, no hosting to set up. Your site is public the moment you publish it.</p></div>
+    <div class="section" style="padding-top:0">
+      <div class="steps">
+        <div class="st rv"><div class="n">1</div><div><h3>Choose your profession and city</h3><p>Start from a list of professions with real photos, or type your own if yours is not there.</p>
+          <div class="chips"><span class="chip on">Bakery</span><span class="chip">Barber</span><span class="chip">Plumber</span><span class="chip">Dentist</span></div></div></div>
+        <div class="st rv"><div class="n">2</div><div><h3>Name it and pick a look</h3><p>Eight color themes and seven font styles. The preview updates while you choose.</p>
+          <div class="dots"><i style="background:linear-gradient(135deg,#ffd700,#ff8c00)" class="sel"></i><i style="background:linear-gradient(135deg,#00f2fe,#4facfe)"></i><i style="background:linear-gradient(135deg,#00f5a0,#00d9f5)"></i><i style="background:linear-gradient(135deg,#ff0844,#ff7a59)"></i><i style="background:linear-gradient(135deg,#b300ff,#7928ca)"></i></div></div></div>
+        <div class="st rv"><div class="n">3</div><div><h3>Add your offers</h3><p>A title, a price, a short description and a photo for each one. Not sure what to charge? Check the market price.</p>
+          <div class="mini-row"><b>Sourdough loaf</b><span>EUR 3.20</span></div></div></div>
+        <div class="st rv"><div class="n">4</div><div><h3>Publish</h3><p>You get a public link anyone can open, and you can change its name. Requests arrive in your dashboard.</p>
+          <span class="urlpill">goldoffer.onrender.com/site/<b>your-business</b></span></div></div>
+      </div>
+      <div style="margin-top:56px"><button class="btn btn-dark btn-lg" type="button" onclick="cta()">Start building</button></div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== FEATURES =================== -->
+<main class="view" id="v-features">
+  <div data-nav="dark" style="min-height:100vh">
+    <div class="page-head"><h1>Everything a small business site needs. Nothing it does not.</h1><p>Each part does one job, and all of it works from the first day.</p></div>
+    <div class="section" style="padding-top:20px">
+      <div class="bento">
+        <div class="bx b1 rv"><h3>Offers with real photos</h3><p>Upload a photo for every offer. Customers see what they are buying before they ask.</p>
+          <div class="vis"><div class="offer-demo">
+            <div class="od"><div class="ph" data-photo="Bakery"></div><div><b>Banitsa</b><span>EUR 2.50</span></div></div>
+            <div class="od"><div class="ph" data-photo="Pastry chef"></div><div><b>Birthday cake</b><span>EUR 38.00</span></div></div>
+            <div class="od"><div class="ph" data-photo="Cafe"></div><div><b>Office breakfast</b><span>EUR 45.00</span></div></div>
+          </div></div></div>
+        <div class="bx b2 rv" style="--d:80ms"><h3>Check the market price</h3><p>Type the offer title and see what others charge. Example shown.</p>
+          <div class="vis"><div class="range-demo"><small>Market range</small><div class="range-bar"><i></i><u></u></div><div class="range-nums"><span>EUR 18</span><span>avg 25</span><span>EUR 32</span></div></div></div></div>
+        <div class="bx b3 rv"><h3>Requests in one place</h3><p>Every request lands in your dashboard. Mark it completed when it is done.</p>
+          <div class="vis"><div class="bars"><i style="height:30%"></i><i style="height:48%"></i><i style="height:40%"></i><i style="height:66%"></i><i style="height:58%"></i><i style="height:92%"></i></div></div></div>
+        <div class="bx b4 rv" style="--d:80ms"><h3>Your own address</h3><p>Choose the name that appears in your link, and change it whenever you like.</p>
+          <div class="vis"><span class="urlpill" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:var(--raise);border-color:var(--line);color:var(--soft)">/site/<b style="color:#fff">your-business</b></span></div></div>
+        <div class="bx b5 rv" style="--d:160ms"><h3>A look that is yours</h3><p>Eight themes, seven fonts. Change them any time and the live site follows.</p>
+          <div class="vis"><div class="look-demo"><i style="background:linear-gradient(135deg,#ffd700,#ff8c00)"></i><i style="background:linear-gradient(135deg,#00f2fe,#4facfe)"></i><i style="background:linear-gradient(135deg,#00f5a0,#00d9f5)"></i><i style="background:linear-gradient(135deg,#ff0844,#ff7a59)"></i><i style="background:linear-gradient(135deg,#b300ff,#7928ca)"></i><i style="background:linear-gradient(135deg,#ff4e00,#ec9f05)"></i><i style="background:linear-gradient(135deg,#ff007f,#7928ca)"></i><i style="background:linear-gradient(135deg,#64748b,#1e293b)"></i></div></div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== PROFESSIONS =================== -->
+<main class="view" id="v-professions">
+  <div data-nav="dark" style="min-height:100vh">
+    <div class="page-head"><h1><span id="profCount">50</span> professions to start from.</h1><p>Pick yours and the builder opens with it selected. If it is not on the list, type it in and use that.</p></div>
+    <div class="marq" id="marq" style="margin-bottom:60px"></div>
+    <div class="section" style="padding-top:20px">
+      <div class="search-wrap gsearch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="text" id="gSearch" placeholder="Search professions" oninput="renderGallery()"></div>
+      <div class="ggrid" id="gGrid"></div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== PRICING =================== -->
+<main class="view" id="v-pricing">
+  <div class="light" data-nav="light" style="min-height:100vh">
+    <div class="page-head"><h1>Start free. Pay when you grow.</h1><p>The free plan is a complete website. Upgrade when you need more offers.</p></div>
+    <div class="section" style="padding-top:10px">
+      <div class="plans">
+        <div class="plan rv"><h3>Free</h3><div class="price">EUR 0</div><div class="sub2">No card needed</div>
+          <ul><li>Public website with its own link</li><li>Up to 10 offers with photos</li><li>Request form and dashboard</li></ul>
+          <button class="btn btn-dark btn-block" style="margin-top:0" type="button" onclick="cta()">Start building</button></div>
+        <div class="plan pro rv" style="--d:100ms"><h3>Pro</h3><div class="price">EUR 19.99 <small>/ month</small></div><div class="sub2">First 7 days free</div>
+          <ul><li>Everything in Free</li><li>Up to 500 offers</li><li>Cancel any time</li></ul>
+          <button class="btn btn-block" style="margin-top:0" type="button" onclick="proCta()">Start 7-day free trial</button></div>
+      </div>
+      <p class="price-note">Your site is hosted for free on this platform's domain. Connecting your own domain, for example yourbusiness.com, can be added later.</p>
+      <div class="faq">
+        <h2>Questions</h2>
+        <details><summary>Do I need a card to start?</summary><p>No. You can register, build, publish and add up to 10 offers without paying anything.</p></details>
+        <details><summary>What happens when I pass 10 offers?</summary><p>The builder asks you to upgrade to Pro. Your existing site and offers stay exactly as they are.</p></details>
+        <details><summary>Can customers open my site without an account?</summary><p>Yes. Your site has a public link that anyone can open on a phone or a computer.</p></details>
+        <details><summary>Can I use my own domain?</summary><p>Not yet. Your site lives on this platform's domain. Connecting your own domain can be added later.</p></details>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== ABOUT =================== -->
+<main class="view" id="v-about">
+  <div data-nav="dark" style="min-height:100vh">
+    <div class="page-head"><h1>About GoldOffer Studio.</h1><p>A small product with one goal: make small businesses look as real online as they are in person.</p></div>
+    <div class="section about" style="padding-top:20px">
+      <div>
+        <h2 class="rv">Built by one person who wants small businesses to look as real as they are.</h2>
+        <p class="rv">GoldOffer Studio is made by Rayan Katsarov. It is for people who run a bakery, a barbershop, a workshop or a clinic and need a website that earns trust on the first look.</p>
+        <p class="rv">Something not working, or an idea for what the builder should do next? Write or call directly.</p>
+        <blockquote class="rv">A real website should bring customers, not headaches.</blockquote>
+      </div>
+      <div class="person rv">
+        <div class="top"><div class="avatar" aria-hidden="true">RK</div><div><b>Rayan Katsarov</b><span>Founder, GoldOffer Studio</span></div></div>
+        <div class="contact">
+          <a href="mailto:rayankatsarov2013@gmail.com"><div><small>Email</small><b>rayankatsarov2013@gmail.com</b></div><em>Write</em></a>
+          <a href="tel:+359896255898"><div><small>Phone</small><b>0896 255 898</b></div><em>Call</em></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== CONTACT =================== -->
+<main class="view" id="v-contact">
+  <div class="light" data-nav="light" style="min-height:100vh">
+    <div class="page-head"><h1>Talk to the person who builds it.</h1><p>Questions, problems or ideas. Write or call, you will reach Rayan directly.</p></div>
+    <div class="section" style="padding-top:10px">
+      <div class="ccards">
+        <a class="ccard rv" href="mailto:rayankatsarov2013@gmail.com"><small>Email</small><b>rayankatsarov2013@gmail.com</b><em>Write a message</em></a>
+        <a class="ccard rv" href="tel:+359896255898" style="--d:100ms"><small>Phone</small><b>0896 255 898</b><em>Call now</em></a>
+      </div>
+      <div class="tips">
+        <h2>To get help faster</h2>
+        <ul>
+          <li>Tell us the email you registered with, so we can find your account.</li>
+          <li>Describe what you clicked and what you expected to happen.</li>
+          <li>If you saw an error message, copy its text into your message.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== BUILDER =================== -->
+<main class="view" id="v-build">
+  <div data-nav="dark" style="min-height:100vh">
+    <div class="page-head"><h1>Build your website.</h1><p>Answer a few questions and watch the site take shape on the right.</p></div>
+    <div class="section" style="padding-top:10px">
+      <div class="layout">
+        <div class="card">
+          <div class="nodes" id="nodes" style="display:none">
+            <div class="node" id="n1">1</div><div class="node" id="n2">2</div><div class="node" id="n3">3</div><div class="node" id="n4">4</div>
+          </div>
+
+          <div id="step-0" class="step active">
+            <h2>Create your unique website</h2>
+            <p class="sub">Answer a few quick questions and customize the look. Free for up to 10 offers.</p>
+            <button class="btn btn-lg btn-block" style="margin-top:0" onclick="startWizard()">Start the builder</button>
+          </div>
+
+          <div id="step-1" class="step">
+            <h2>1. Your profession and city</h2>
+            <p class="sub">Scroll through the list or search for your profession.</p>
+            <div class="field"><label>City</label><input type="text" id="city" placeholder="e.g. Sofia, Plovdiv, Varna"></div>
+            <label>Profession</label>
+            <div class="search-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              <input type="text" id="profSearch" placeholder="Search professions, e.g. barber, plumber, bakery" oninput="renderProfs()">
+            </div>
+            <div class="prof-scroll"><div class="prof-grid" id="profGrid"></div></div>
+            <p class="note" style="margin:0 0 8px">Photos are loaded from Wikipedia.</p>
+            <div class="selected-line" id="selLine">No profession selected yet.</div>
+            <button class="btn btn-block" onclick="step1Next()">Continue</button>
+            <button class="link-btn" onclick="goStep(0)">Back</button>
+          </div>
+
+          <div id="step-2" class="step">
+            <h2>2. Brand and style</h2>
+            <p class="sub">Name your site and pick how it looks.</p>
+            <div class="field"><label>Site name</label><input type="text" id="siteName" placeholder="e.g. AutoFix Express" oninput="renderPreview()"></div>
+            <label>Color theme</label>
+            <div class="swatches" id="swatches"></div>
+            <label>Font style</label>
+            <div class="fonts" id="fonts"></div>
+            <button class="btn btn-block" onclick="step2Next()">Continue</button>
+            <button class="link-btn" onclick="goStep(1)">Back</button>
+          </div>
+
+          <div id="step-3" class="step">
+            <h2>3. Your offers</h2>
+            <p class="sub">Each offer is saved to your account as soon as you add it.</p>
+            <div class="note" id="offerLimit" style="margin:0 0 12px"></div>
+            <div id="offerList"></div>
+            <div class="add-box">
+              <div class="field"><label>Title</label><input type="text" id="oTitle" placeholder="e.g. Oil change"></div>
+              <button class="btn-ghost" id="aiBtn" onclick="lookupPrice()">Check market price</button>
+              <div class="range" id="oRange"></div>
+              <div class="field" style="margin-top:12px"><label>Price (EUR)</label><input type="number" id="oPrice" min="0" step="0.01" placeholder="e.g. 25"></div>
+              <div class="field"><label>Description</label><input type="text" id="oDesc" placeholder="Short description"></div>
+              <div class="field"><label>Photo (optional)</label><input type="file" id="oImg" accept="image/*" onchange="previewPhoto()">
+                <div class="thumb" id="oImgPrev" style="display:none"><img id="oImgPrevImg" alt="Selected photo"><button type="button" class="x" title="Remove photo" onclick="clearPhoto()">&times;</button></div>
+              </div>
+              <button class="btn btn-block" id="addOfferBtn" onclick="addOffer()">Add offer</button>
+            </div>
+            <button class="btn btn-lg btn-block" style="margin-top:22px" onclick="publishSite()">Publish website</button>
+            <button class="link-btn" onclick="goStep(2)">Back</button>
+          </div>
+
+          <div id="step-4" class="step">
+            <h2>Your website is live</h2>
+            <p class="sub">Anyone can open it with this link:</p>
+            <div class="url-box" id="siteUrlBox"></div>
+            <div class="row">
+              <button class="btn-ghost" onclick="copyUrl()">Copy link</button>
+              <button class="btn-ghost" onclick="goStep(3)">Edit offers</button>
+            </div>
+            <div class="field" style="margin-top:22px">
+              <label>Change the address name</label>
+              <div class="row" style="flex-wrap:nowrap"><input type="text" id="slugInput" placeholder="my-business"><button class="btn" onclick="changeSlug()">Save</button></div>
+            </div>
+            <button class="btn btn-block" onclick="payNow()">Start 7-day free trial (EUR 19.99 per month after)</button>
+            <p class="note">Your site is hosted for free on this platform's domain. Connecting your own domain (for example yourbusiness.com) can be added later.</p>
+          </div>
+        </div>
+
+        <div class="preview">
+          <div class="pbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url" id="pvUrl">your-site</span></div>
+          <div class="screen">
+            <div class="top"><h3 id="pvName">Your brand</h3><p id="pvCat">Business category</p></div>
+            <div class="body" id="pvOffers"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== RESET PASSWORD =================== -->
+<main class="view" id="v-reset">
+  <div class="light" data-nav="light" style="min-height:100vh">
+    <div class="page-head" style="padding-bottom:24px"><h1>Set a new password.</h1><p>Choose a new password for your account.</p></div>
+    <div class="section" style="padding-top:10px">
+      <form class="resetbox" onsubmit="submitReset(event)">
+        <div class="field"><label>New password (min. 8 characters)</label><input type="password" id="rPass" autocomplete="new-password" required></div>
+        <div class="field"><label>Repeat new password</label><input type="password" id="rPass2" autocomplete="new-password" required></div>
+        <div class="err" id="resetErr"></div>
+        <button class="btn btn-dark btn-block" type="submit" id="resetBtn">Save new password</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- =================== PRIVACY POLICY =================== -->
+<main class="view" id="v-privacy">
+  <div class="light" data-nav="light" style="min-height:100vh">
+    <div class="page-head" style="padding-bottom:30px">
+      <h1 data-l="bg">Политика за поверителност</h1><h1 data-l="en">Privacy Policy</h1>
+      <p data-l="bg">Последна промяна: 12 октомври 2026 г.</p><p data-l="en">Last updated: 12 October 2026.</p>
+      <div class="lsw"><button type="button" onclick="setLegalLang('bg')">Български</button><button type="button" onclick="setLegalLang('en')">English</button></div>
+    </div>
+    <div class="section legal" style="padding-top:0">
+      <div data-l="bg">
+        <h2>1. Кои сме ние</h2>
+        <p>GoldOffer Studio е услуга за създаване на сайтове на малки бизнеси. Администратор на данните е Раян Кацаров. За въпроси: rayankatsarov2013@gmail.com, тел. 0896 255 898.</p>
+        <h2>2. Какви данни събираме</h2>
+        <ul>
+          <li><b>Акаунт:</b> име, фамилия, имейл и парола (паролата се съхранява само в криптиран вид).</li>
+          <li><b>Съдържание на сайта:</b> име на бизнеса, град, оферти, цени, снимки, както и контактите, които сами въведете (телефон, адрес, работно време, връзки към социални мрежи).</li>
+          <li><b>Заявки от ваши клиенти:</b> име и телефон или имейл, които клиентът въвежда във формата, и избраната оферта.</li>
+          <li><b>В браузъра:</b> пазим само токена за вход и избрания език. Не използваме рекламни бисквитки и не следим посетителите.</li>
+        </ul>
+        <h2>3. За какво използваме данните</h2>
+        <ul>
+          <li>За да предоставяме услугата: акаунт, публикуване на сайта, показване на офертите.</li>
+          <li>За да ви изпращаме имейл при нова заявка и връзка за нова парола.</li>
+          <li>За плащане на абонамента, което се извършва през Stripe. Не виждаме и не пазим данните на вашата карта.</li>
+          <li>За сигурност и предотвратяване на злоупотреби.</li>
+        </ul>
+        <h2>4. Основание</h2>
+        <p>Изпълнение на договор (предоставяне на услугата), вашето съгласие (формата за заявка и регистрацията) и законен интерес (сигурност).</p>
+        <h2>5. Кой още получава данни</h2>
+        <p>Ползваме доставчици, които обработват данни от наше име: хостинг (Render), база данни (MongoDB Atlas), изпращане на имейли (Brevo или Resend), плащания (Stripe). Страниците зареждат шрифтове от Google Fonts, а конструкторът показва снимки от Уикипедия. Ако сайт показва карта, тя се зарежда от Google Maps. Не продаваме данни.</p>
+        <h2>6. Данни на ваши клиенти</h2>
+        <p>Когато клиент изпрати заявка през вашия сайт, вие сте администратор на тези данни, а GoldOffer Studio ги обработва само за да ви ги предостави. Отговорни сте да ги използвате законно.</p>
+        <h2>7. Колко време ги пазим</h2>
+        <p>Докато имате акаунт. Когато изтриете акаунта си или поискате това, изтриваме данните, освен ако закон ни задължава да ги пазим.</p>
+        <h2>8. Вашите права</h2>
+        <p>Можете да поискате достъп, поправка, изтриване, ограничаване, пренос на данните си и да възразите срещу обработването. Пишете ни на rayankatsarov2013@gmail.com. Имате право и на жалба до Комисията за защита на личните данни (www.cpdp.bg).</p>
+        <h2>9. Промени</h2>
+        <p>Ако променим тази политика, ще обновим датата отгоре.</p>
+      </div>
+      <div data-l="en">
+        <h2>1. Who we are</h2>
+        <p>GoldOffer Studio is a service for building websites for small businesses. The data controller is Rayan Katsarov. Questions: rayankatsarov2013@gmail.com, phone 0896 255 898.</p>
+        <h2>2. What data we collect</h2>
+        <ul>
+          <li><b>Account:</b> first name, last name, email and password (the password is stored only in hashed form).</li>
+          <li><b>Site content:</b> business name, city, offers, prices, photos, and the contact details you choose to enter (phone, address, opening hours, social links).</li>
+          <li><b>Requests from your customers:</b> the name and phone or email the customer types in the form, and the chosen offer.</li>
+          <li><b>In your browser:</b> we store only your login token and your language choice. We do not use advertising cookies and we do not track visitors.</li>
+        </ul>
+        <h2>3. Why we use the data</h2>
+        <ul>
+          <li>To provide the service: your account, publishing your site, showing your offers.</li>
+          <li>To email you when a new request arrives and to send a password reset link.</li>
+          <li>To take payment for the subscription, which is handled by Stripe. We never see or store your card details.</li>
+          <li>For security and to prevent abuse.</li>
+        </ul>
+        <h2>4. Legal basis</h2>
+        <p>Performance of a contract (providing the service), your consent (the request form and registration) and legitimate interest (security).</p>
+        <h2>5. Who else receives data</h2>
+        <p>We use providers that process data on our behalf: hosting (Render), database (MongoDB Atlas), email sending (Brevo or Resend) and payments (Stripe). Pages load fonts from Google Fonts and the builder shows photos from Wikipedia. If a site shows a map, it loads from Google Maps. We do not sell data.</p>
+        <h2>6. Your customers' data</h2>
+        <p>When a customer sends a request through your site, you are the controller of that data and GoldOffer Studio only processes it to pass it to you. You are responsible for using it lawfully.</p>
+        <h2>7. How long we keep it</h2>
+        <p>As long as you have an account. When you delete your account or ask us to, we delete the data unless the law requires us to keep it.</p>
+        <h2>8. Your rights</h2>
+        <p>You can ask for access, correction, deletion, restriction or portability of your data, and object to processing. Write to rayankatsarov2013@gmail.com. You also have the right to complain to the Bulgarian Commission for Personal Data Protection (www.cpdp.bg).</p>
+        <h2>9. Changes</h2>
+        <p>If we change this policy, we will update the date at the top.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== TERMS OF USE =================== -->
+<main class="view" id="v-terms">
+  <div class="light" data-nav="light" style="min-height:100vh">
+    <div class="page-head" style="padding-bottom:30px">
+      <h1 data-l="bg">Условия за ползване</h1><h1 data-l="en">Terms of Use</h1>
+      <p data-l="bg">Последна промяна: 12 октомври 2026 г.</p><p data-l="en">Last updated: 12 October 2026.</p>
+      <div class="lsw"><button type="button" onclick="setLegalLang('bg')">Български</button><button type="button" onclick="setLegalLang('en')">English</button></div>
+    </div>
+    <div class="section legal" style="padding-top:0">
+      <div data-l="bg">
+        <h2>1. Услугата</h2>
+        <p>GoldOffer Studio ви позволява да създадете и публикувате сайт с оферти и форма за заявки. Като се регистрирате, приемате тези условия и Политиката за поверителност.</p>
+        <h2>2. Акаунт</h2>
+        <p>Давате верни данни и пазите паролата си. Вие отговаряте за всичко, което се случва през вашия акаунт.</p>
+        <h2>3. Безплатен и платен план</h2>
+        <p>Безплатният план включва публичен сайт и до 10 оферти. Планът Pro струва 19.99 евро на месец, с първите 7 дни безплатно, и позволява повече оферти. Можете да го прекратите по всяко време. Плащането се обработва от Stripe.</p>
+        <h2>4. Вашето съдържание</h2>
+        <p>Вие отговаряте за текстовете, цените и снимките, които качвате. Не качвайте незаконно, подвеждащо или чуждо защитено с авторски права съдържание. Цените и офертите са ваши и ние не ги проверяваме.</p>
+        <h2>5. Забранени действия</h2>
+        <p>Не използвайте услугата за измами, спам, незаконни стоки или услуги, нито за да затруднявате работата на системата. Можем да спрем сайт, който нарушава тези правила.</p>
+        <h2>6. Наличност</h2>
+        <p>Правим всичко възможно сайтът да работи, но услугата се предоставя във вида, в който е. Безплатната инфраструктура може да е бавна след период без посещения и понякога да е недостъпна.</p>
+        <h2>7. Отговорност</h2>
+        <p>В рамките, разрешени от закона, не носим отговорност за пропуснати ползи, загубени клиенти или непреки щети, свързани с ползването на услугата.</p>
+        <h2>8. Прекратяване</h2>
+        <p>Можете да спрете да ползвате услугата и да поискате изтриване на акаунта си по всяко време. Можем да прекратим акаунт при нарушение на условията.</p>
+        <h2>9. Промени и приложимо право</h2>
+        <p>Можем да променим условията, като обновим датата отгоре. Прилага се българското право.</p>
+        <h2>10. Контакт</h2>
+        <p>Раян Кацаров, rayankatsarov2013@gmail.com, тел. 0896 255 898.</p>
+      </div>
+      <div data-l="en">
+        <h2>1. The service</h2>
+        <p>GoldOffer Studio lets you create and publish a website with offers and a request form. By registering, you accept these terms and the Privacy Policy.</p>
+        <h2>2. Account</h2>
+        <p>You provide correct details and keep your password safe. You are responsible for everything that happens through your account.</p>
+        <h2>3. Free and paid plan</h2>
+        <p>The free plan includes a public website and up to 10 offers. The Pro plan costs EUR 19.99 per month, with the first 7 days free, and allows more offers. You can cancel at any time. Payment is handled by Stripe.</p>
+        <h2>4. Your content</h2>
+        <p>You are responsible for the text, prices and photos you upload. Do not upload unlawful, misleading or other people's copyrighted content. Offers and prices are yours and we do not check them.</p>
+        <h2>5. What is not allowed</h2>
+        <p>Do not use the service for fraud, spam, illegal goods or services, or to disrupt the system. We may suspend a site that breaks these rules.</p>
+        <h2>6. Availability</h2>
+        <p>We do our best to keep sites running, but the service is provided as is. Free infrastructure can be slow after a period without visits and may sometimes be unavailable.</p>
+        <h2>7. Liability</h2>
+        <p>To the extent the law allows, we are not liable for lost profits, lost customers or indirect damages related to using the service.</p>
+        <h2>8. Ending use</h2>
+        <p>You can stop using the service and ask us to delete your account at any time. We may close an account that breaks these terms.</p>
+        <h2>9. Changes and governing law</h2>
+        <p>We may change these terms by updating the date at the top. Bulgarian law applies.</p>
+        <h2>10. Contact</h2>
+        <p>Rayan Katsarov, rayankatsarov2013@gmail.com, phone 0896 255 898.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- =================== DASHBOARD =================== -->
+<main class="view" id="v-dashboard">
+  <div class="dash" data-nav="dark">
+    <h1>Dashboard</h1>
+    <div id="dashGate" class="panel" style="display:none">Please sign up or log in to see your dashboard.</div>
+    <div id="dashBody">
+      <div class="stats">
+        <div class="stat"><h3>Revenue (completed)</h3><div class="v" id="sRevenue">0.00 EUR</div></div>
+        <div class="stat"><h3>Completed orders</h3><div class="v" id="sCompleted">0</div></div>
+        <div class="stat"><h3>Pending requests</h3><div class="v" id="sPending">0</div></div>
+        <div class="stat"><h3>Active offers</h3><div class="v" id="sOffers">0</div></div>
+      </div>
+      <div class="dash-grid">
+        <div class="panel"><h2>Revenue, last 6 months</h2><canvas id="chart"></canvas></div>
+        <div class="panel"><h2>Recent orders</h2>
+          <table><thead><tr><th>Offer</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="orderRows"></tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="foot" id="foot">
+  <div class="foot-in">
+    <div>
+      <a class="brand" href="/" data-link style="padding:0">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="url(#bg1)"/><text x="32" y="47" font-size="40" font-weight="800" text-anchor="middle" fill="#07090d" font-family="Arial, Helvetica, sans-serif">G</text></svg>
+        <span>GoldOffer Studio</span></a>
+      <p>Websites for local businesses. Free to start.</p>
+    </div>
+    <div><h4>Product</h4><a href="/how-it-works" data-link>How it works</a><a href="/features" data-link>Features</a><a href="/pricing" data-link>Pricing</a><a href="/build" data-link>Website builder</a></div>
+    <div><h4>Explore</h4><a href="/professions" data-link>Professions</a><a href="/dashboard" data-link>Dashboard</a></div>
+    <div><h4>Company</h4><a href="/about" data-link>About</a><a href="/contact" data-link>Contact</a><a href="/privacy" data-link>Privacy Policy</a><a href="/terms" data-link>Terms of use</a><a href="mailto:rayankatsarov2013@gmail.com">rayankatsarov2013@gmail.com</a><a href="tel:+359896255898">0896 255 898</a></div>
+  </div>
+  <div class="foot-end">&copy; 2026 GoldOffer Studio. Founded by Rayan Katsarov.</div>
+</footer>
+
+<div id="authModal" class="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeAuth()" aria-label="Close">&times;</button>
+    <h3 id="authTitle">Sign up</h3>
+    <form id="authForm" onsubmit="submitAuth(event)">
+      <div id="nameFields">
+        <div class="field"><label>First name</label><input type="text" id="aFirst" autocomplete="given-name"></div>
+        <div class="field"><label>Last name</label><input type="text" id="aLast" autocomplete="family-name"></div>
+      </div>
+      <div class="field"><label>Email</label><input type="email" id="aEmail" required autocomplete="email"></div>
+      <div class="field" id="passField"><label>Password (min. 8 characters)</label><input type="password" id="aPass" required autocomplete="current-password"></div>
+      <div class="field" id="confirmField"><label>Repeat password</label><input type="password" id="aPass2" autocomplete="new-password"></div>
+      <label class="check" id="consentField"><input type="checkbox" id="aConsent"><span>I agree to the <a href="/terms" data-link>Terms of use</a> and the <a href="/privacy" data-link>Privacy Policy</a>.</span></label>
+      <button type="button" class="link-btn forgot" id="forgotLink" onclick="openForgot()">Forgot your password?</button>
+      <div class="err" id="authErr"></div>
+      <button class="btn btn-block" type="submit" id="authSubmit">Create account</button>
+    </form>
+    <button class="link-btn" id="authSwitch" onclick="toggleAuthMode()">I already have an account</button>
+  </div>
+</div>
+
+<div id="alertModal" class="modal">
+  <div class="modal-box" style="text-align:center">
+    <h3 id="alertTitle">Notice</h3>
+    <p id="alertMsg" style="color:var(--soft)"></p>
+    <button class="btn btn-block" onclick="document.getElementById('alertModal').style.display='none'">OK</button>
+  </div>
+</div>
+
+<script>
+  const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'http://localhost:5000'
+    : (location.hostname.endsWith('onrender.com') ? location.origin : 'https://goldoffer.onrender.com');
+
+  const THEMES = [
+    ['gold', 'Gold', 'linear-gradient(135deg,#ffd700,#ff8c00)'],
+    ['neon-blue', 'Neon', 'linear-gradient(135deg,#00f2fe,#4facfe)'],
+    ['emerald', 'Emerald', 'linear-gradient(135deg,#00f5a0,#00d9f5)'],
+    ['ruby', 'Ruby', 'linear-gradient(135deg,#ff0844,#ff7a59)'],
+    ['purple-haze', 'Purple', 'linear-gradient(135deg,#b300ff,#7928ca)'],
+    ['sunset-orange', 'Orange', 'linear-gradient(135deg,#ff4e00,#ec9f05)'],
+    ['cyber-pink', 'Pink', 'linear-gradient(135deg,#ff007f,#7928ca)'],
+    ['midnight-silver', 'Slate', 'linear-gradient(135deg,#64748b,#1e293b)']
+  ];
+  const FONTS = [
+    ['sans', 'Inter', 'Modern', "'Inter', sans-serif"],
+    ['serif', 'Playfair', 'Elegant', "'Playfair Display', serif"],
+    ['mono', 'JetBrains', 'Technical', "'JetBrains Mono', monospace"],
+    ['display', 'Oswald', 'Bold', "'Oswald', sans-serif"],
+    ['script', 'Caveat', 'Handwritten', "'Caveat', cursive"],
+    ['rounded', 'Comfortaa', 'Rounded', "'Comfortaa', cursive"],
+    ['geo', 'Montserrat', 'Geometric', "'Montserrat', sans-serif"]
+  ];
+
+  const PROFESSIONS = [
+    ['Auto mechanic', 'car,repair'], ['Bakery', 'bakery,bread'], ['Fire safety', 'firefighter'], ['Jeweler', 'jewelry'],
+    ['Barber', 'barber'], ['Hairdresser', 'hairdresser'], ['Beauty salon', 'beauty,salon'], ['Nail technician', 'manicure'],
+    ['Massage therapist', 'massage'], ['Personal trainer', 'fitness,trainer'], ['Yoga instructor', 'yoga'], ['Photographer', 'photographer'],
+    ['Videographer', 'video,camera'], ['Plumber', 'plumber'], ['Electrician', 'electrician'], ['Carpenter', 'carpenter'],
+    ['Painter and decorator', 'house,painter'], ['Roofer', 'roofing'], ['Construction', 'construction'], ['Interior designer', 'interior,design'],
+    ['Cleaning service', 'cleaning'], ['Landscaper and gardener', 'gardening'], ['Florist', 'florist'], ['Restaurant', 'restaurant'],
+    ['Cafe', 'coffee,shop'], ['Catering', 'catering'], ['Butcher', 'butcher'], ['Pastry chef', 'pastry'],
+    ['Dentist', 'dentist'], ['Medical clinic', 'doctor'], ['Veterinarian', 'veterinarian'], ['Pharmacy', 'pharmacy'],
+    ['Lawyer', 'lawyer'], ['Accountant', 'accountant'], ['Real estate agent', 'real,estate'], ['Tutor and teacher', 'teacher'],
+    ['Driving school', 'driving,car'], ['Taxi and transport', 'taxi'], ['Moving company', 'moving,truck'], ['Tailor', 'tailor'],
+    ['Shoe repair', 'shoemaker'], ['Web designer', 'web,design'], ['Solar installer', 'solar,panels'], ['Tattoo artist', 'tattoo'],
+    ['Event planner', 'wedding,event'], ['DJ and music', 'dj'], ['Car wash', 'car,wash'], ['Tire shop', 'tires'],
+    ['Locksmith', 'locksmith'], ['Air conditioning', 'air,conditioner'], ['Computer repair', 'computer,repair'], ['Furniture maker', 'furniture,workshop']
+  ];
+
+  // Wikipedia article whose lead photo best shows each profession
+  const WIKI = {
+    'Auto mechanic': 'Automobile repair shop', 'Bakery': 'Bakery', 'Fire safety': 'Firefighter', 'Jeweler': 'Jewellery',
+    'Barber': 'Barber', 'Hairdresser': 'Hairdresser', 'Beauty salon': 'Beauty salon', 'Nail technician': 'Manicure',
+    'Massage therapist': 'Massage', 'Personal trainer': 'Personal trainer', 'Yoga instructor': 'Yoga', 'Photographer': 'Photographer',
+    'Videographer': 'Videography', 'Plumber': 'Plumber', 'Electrician': 'Electrician', 'Carpenter': 'Carpenter',
+    'Painter and decorator': 'Painter and decorator', 'Roofer': 'Roofer', 'Construction': 'Construction worker', 'Interior designer': 'Interior design',
+    'Cleaning service': 'Cleaning', 'Landscaper and gardener': 'Landscaping', 'Florist': 'Floristry', 'Restaurant': 'Restaurant',
+    'Cafe': 'Café', 'Catering': 'Catering', 'Butcher': 'Butcher', 'Pastry chef': 'Pastry chef',
+    'Dentist': 'Dentist', 'Medical clinic': 'Clinic', 'Veterinarian': 'Veterinarian', 'Pharmacy': 'Pharmacy',
+    'Lawyer': 'Lawyer', 'Accountant': 'Accountant', 'Real estate agent': 'Real estate agent', 'Tutor and teacher': 'Teacher',
+    'Driving school': 'Driving school', 'Taxi and transport': 'Taxi', 'Moving company': 'Moving company', 'Tailor': 'Tailor',
+    'Shoe repair': 'Cobbler', 'Web designer': 'Web design', 'Solar installer': 'Solar panel', 'Tattoo artist': 'Tattoo artist',
+    'Event planner': 'Event management', 'DJ and music': 'Disc jockey', 'Car wash': 'Car wash', 'Tire shop': 'Tire',
+    'Locksmith': 'Locksmithing', 'Air conditioning': 'Air conditioning', 'Computer repair': 'Computer repair technician', 'Furniture maker': 'Furniture'
+  };
+
+  // The demo site in the hero clip cycles through different professions
+  const MOCKS = [
+    { prof: 'Bakery', name: 'Golden Crust Bakery', slug: 'golden-crust', meta: 'Bakery · Plovdiv', hue: 36, sub: 'Bread and pastries, baked fresh every morning.',
+      toast: 'Sourdough loaf, from Anna',
+      cards: [['Cheese banitsa', 'Baked this morning, sold by the piece.', '2.50', 'Pastry chef'], ['Sourdough loaf', 'Slow-risen, 800 g.', '3.20', 'Cafe'], ['Birthday cake', 'Made to order, ready in two days.', '38.00', 'Bakery']] },
+    { prof: 'Barber', name: 'Sharp Edge Barbers', slug: 'sharp-edge', meta: 'Barber · Sofia', hue: 215, sub: 'Classic cuts and hot-towel shaves. Book in minutes.',
+      toast: 'Classic haircut, from Martin',
+      cards: [['Classic haircut', 'Wash, cut and style. 45 minutes.', '15.00', 'Barber'], ['Beard trim and shave', 'Hot towel and straight razor.', '12.00', 'Hairdresser'], ['Father and son cut', 'Two chairs, one visit.', '25.00', 'Beauty salon']] },
+    { prof: 'Auto mechanic', name: 'Prime Auto Service', slug: 'prime-auto', meta: 'Auto mechanic · Varna', hue: 8, sub: 'Honest repairs, clear prices, done on time.',
+      toast: 'Brake inspection, from Ivan',
+      cards: [['Oil and filter change', 'Synthetic oil, all filters checked.', '45.00', 'Auto mechanic'], ['Brake inspection', 'Pads, discs and fluid.', '20.00', 'Car wash'], ['Full diagnostics', 'Computer scan and written report.', '35.00', 'Tire shop']] },
+    { prof: 'Florist', name: 'Bloom and Petal', slug: 'bloom-petal', meta: 'Florist · Burgas', hue: 330, sub: 'Fresh flowers for every moment, delivered to the door.',
+      toast: 'Spring bouquet, from Elena',
+      cards: [['Spring bouquet', 'Seasonal flowers, hand tied.', '28.00', 'Florist'], ['Wedding arrangements', 'Bouquet, table pieces and arch.', '260.00', 'Event planner'], ['Weekly office flowers', 'Fresh every Monday.', '40.00', 'Landscaper and gardener']] },
+    { prof: 'Dentist', name: 'BrightSmile Dental', slug: 'brightsmile', meta: 'Dentist · Ruse', hue: 190, sub: 'Gentle care for the whole family.',
+      toast: 'Check-up, from Petya',
+      cards: [['Check-up and cleaning', 'Exam, polish and advice.', '35.00', 'Dentist'], ['Teeth whitening', 'One visit, visible result.', '120.00', 'Medical clinic'], ['Children visit', 'Calm and friendly first visit.', '20.00', 'Pharmacy']] },
+    { prof: 'Photographer', name: 'Frame and Light Studio', slug: 'frame-light', meta: 'Photographer · Sofia', hue: 265, sub: 'Portraits, weddings and brand photos that feel real.',
+      toast: 'Portrait session, from Daniel',
+      cards: [['Portrait session', '45 minutes, 15 edited photos.', '80.00', 'Photographer'], ['Wedding day', 'Full-day coverage and gallery.', '650.00', 'Event planner'], ['Brand photos', 'For your site and social media.', '180.00', 'Videographer']] }
+  ];
+
+  const S = { photos: {}, token: localStorage.getItem('token'), user: null, offers: [], category: '', theme: 'gold', font: 'sans', mode: 'signup', chart: null };
+  const $ = (id) => document.getElementById(id);
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+  const money = (n) => Number(n || 0).toFixed(2);
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+
+  function notify(msg, title) { $('alertTitle').textContent = title || 'Notice'; $('alertMsg').textContent = msg; $('alertModal').style.display = 'flex'; }
+
+  async function api(path, opts = {}) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (S.token) headers.Authorization = 'Bearer ' + S.token;
+    let res;
+    try { res = await fetch(API + path, { ...opts, headers: { ...headers, ...(opts.headers || {}) } }); }
+    catch (e) { throw new Error('Cannot reach the server. If it was idle, wait about 30 seconds and try again.'); }
+    let data = {};
+    try { data = await res.json(); } catch (e) {}
+    if (!res.ok) {
+      if ((res.status === 401 || res.status === 403) && S.token) logout(true);
+      throw new Error(data.message || 'Request failed');
+    }
+    return data;
+  }
+
+  // ---------- Router: every route is its own page ----------
+  const ROUTES = { '/': 'home', '/how-it-works': 'how', '/features': 'features', '/professions': 'professions', '/pricing': 'pricing', '/about': 'about', '/contact': 'contact', '/build': 'build', '/dashboard': 'dashboard', '/privacy': 'privacy', '/terms': 'terms', '/reset': 'reset' };
+  const TITLES = {
+    privacy: 'Privacy Policy - GoldOffer Studio', terms: 'Terms of use - GoldOffer Studio', reset: 'New password - GoldOffer Studio',
+    home: 'GoldOffer Studio - Websites for local businesses', how: 'How it works - GoldOffer Studio', features: 'Features - GoldOffer Studio',
+    professions: 'Professions - GoldOffer Studio', pricing: 'Pricing - GoldOffer Studio', about: 'About - GoldOffer Studio',
+    contact: 'Contact - GoldOffer Studio', build: 'Website builder - GoldOffer Studio', dashboard: 'Dashboard - GoldOffer Studio'
+  };
+  let currentPage = 'home';
+
+  function navigate(path, push) {
+    const clean = (String(path).split('?')[0].split('#')[0].replace(/\/+$/, '')) || '/';
+    const name = ROUTES[clean] || 'home';
+    const finalPath = ROUTES[clean] ? clean : '/';
+    closeMenus(); $('nav').classList.remove('open'); closeAuth();
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'v-' + name));
+    if (push !== false && location.pathname !== finalPath) history.pushState({}, '', finalPath);
+    document.title = TITLES[name];
+    document.body.dataset.page = name;
+    currentPage = name;
+    window.scrollTo(0, 0);
+    document.querySelectorAll('.menu a.ml').forEach(a => a.classList.toggle('active', a.getAttribute('href') === finalPath));
+    if (name === 'dashboard') loadDashboard();
+    if (name === 'reset') prepareReset();
+    if (name === 'professions') { renderMarquee(); renderGallery(); }
+    window.dispatchEvent(new Event('resize'));
+    frame();
+  }
+  window.addEventListener('popstate', () => navigate(location.pathname, false));
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[data-link]');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    if (a.dataset.prof) { pickProf(a.dataset.prof); return; }
+    navigate(a.getAttribute('href'));
+  });
+
+  function cta() { navigate('/build'); if (!S.user) openAuth('signup'); else if ($('step-0').classList.contains('active')) goStep(1); }
+  function proCta() { if (!S.user) { openAuth('signup'); return; } payNow(); }
+  function pickProf(name) {
+    setCategory(name); renderProfs();
+    navigate('/build');
+    if (!S.user) openAuth('signup'); else if ($('step-0').classList.contains('active')) goStep(1);
+  }
+
+  // ---------- Navigation menus and light/dark switching ----------
+  function closeMenus() {
+    document.querySelectorAll('[data-menu]').forEach(i => { i.classList.remove('open'); i.querySelector('.mb').setAttribute('aria-expanded', 'false'); });
+    $('nav').classList.remove('menu-open');
+  }
+  function toggleBurger() {
+    const n = $('nav'); const open = !n.classList.contains('open');
+    n.classList.toggle('open', open); $('burger').setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  function initMenu() {
+    const items = [...document.querySelectorAll('[data-menu]')];
+    const canHover = () => window.matchMedia('(hover: hover) and (min-width: 901px)').matches;
+    const open = (it) => { closeMenus(); it.classList.add('open'); it.querySelector('.mb').setAttribute('aria-expanded', 'true'); $('nav').classList.add('menu-open'); };
+    items.forEach(it => {
+      const b = it.querySelector('.mb');
+      it.addEventListener('mouseenter', () => { if (canHover()) open(it); });
+      it.addEventListener('mouseleave', () => { if (canHover()) closeMenus(); });
+      b.addEventListener('click', (e) => { e.stopPropagation(); if (it.classList.contains('open')) closeMenus(); else open(it); });
+    });
+    document.addEventListener('click', (e) => { if (!e.target.closest('[data-menu]')) closeMenus(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeMenus(); $('nav').classList.remove('open'); } });
+  }
+  function setNavTheme() {
+    const nav = $('nav');
+    nav.classList.toggle('solid', window.scrollY > 24);
+    const y = 36;
+    let theme = 'dark';
+    const els = document.querySelectorAll('.view.active [data-nav]');
+    for (const el of els) { const r = el.getBoundingClientRect(); if (r.top <= y && r.bottom > y) { theme = el.dataset.nav; break; } }
+    nav.classList.toggle('light', theme === 'light');
+  }
+
+  // ---------- One scroll loop: hero clip, moving tiles, nav ----------
+  let queued = false;
+  const frameFns = [];
+  function frame() { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; frameFns.forEach(f => f()); }); } }
+  window.addEventListener('scroll', frame, { passive: true });
+  window.addEventListener('resize', frame);
+
+  // ---------- Hero scroll stage ----------
+  function initStage() {
+    const track = $('stageTrack'), st = $('stageSticky'), copy = $('stageCopy'), desc = $('stageDesc'), hint = $('scrollHint'), dots = $('profDots');
+    desc.innerHTML = desc.textContent.trim().split(/\s+/).map(w => '<span class="w">' + esc(w) + '</span>').join(' ');
+    const words = [...desc.querySelectorAll('.w')];
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const ease = (t) => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    dots.innerHTML = MOCKS.map(() => '<i></i>').join('');
+
+    frameFns.push(function () {
+      if (track.offsetParent === null) return;
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const total = track.offsetHeight - vh;
+      const p = clamp(-track.getBoundingClientRect().top / total);
+      const mobile = vw < 700;
+      const tw = Math.min(1120, vw * (mobile ? .92 : .84));
+      const th = Math.min(vh * .62, tw * .58);
+      const th2 = Math.min(vh * .40, tw * .5);
+      const e1 = ease(clamp(p / .42));
+      const e2 = ease(clamp((p - .5) / .34));
+      const w = lerp(lerp(vw, tw, e1), tw * .9, e2);
+      const h = lerp(lerp(vh, th, e1), th2, e2);
+      st.style.setProperty('--w', w + 'px'); st.style.setProperty('--h', h + 'px');
+      st.style.setProperty('--cy', lerp(50, mobile ? 31 : 34, e2));
+      st.style.setProperty('--r', (30 * e1) + 'px'); st.style.setProperty('--e', e1.toFixed(3));
+      st.style.setProperty('--rx', (7 * e1 * (1 - e2)).toFixed(2) + 'deg');
+      const co = 1 - clamp(p / .2);
+      copy.style.opacity = co; copy.style.transform = 'translateY(calc(-50% - ' + (p * 90) + 'px))';
+      copy.style.visibility = co <= 0.01 ? 'hidden' : 'visible';
+      hint.style.opacity = 1 - clamp(p / .06);
+      dots.style.opacity = clamp((e1 - .6) / .4) * (1 - clamp((p - .5) / .1));
+      desc.style.opacity = clamp((p - .6) / .08);
+      const prog = clamp((p - .66) / .3) * words.length;
+      for (let i = 0; i < words.length; i++) words[i].style.opacity = (.18 + .82 * clamp(prog - i)).toFixed(2);
+    });
+
+    // cycle the demo site through different professions
+    let idx = 0;
+    applyMock(0);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setInterval(() => {
+        if (currentPage !== 'home' || document.hidden) return;
+        const r = track.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > window.innerHeight) return;
+        const wrap = $('mockWrap'); wrap.classList.add('out');
+        setTimeout(() => { idx = (idx + 1) % MOCKS.length; applyMock(idx); wrap.classList.remove('out'); }, 450);
+      }, 5200);
+    }
+  }
+  function mockGradient(h) { return 'linear-gradient(135deg,hsl(' + h + ' 45% 38%),hsl(' + ((h + 40) % 360) + ' 50% 16%))'; }
+  function setPhoto(el, key, hue) {
+    const fb = mockGradient(hue);
+    el.style.setProperty('--fb', fb);
+    const u = S.photos[key];
+    el.style.backgroundImage = u ? 'url("' + u.replace(/"/g, '%22') + '"), ' + fb : fb;
+  }
+  let activeMock = 0;
+  function applyMock(i) {
+    activeMock = i;
+    const m = MOCKS[i];
+    $('mkName').textContent = m.name; $('mkH1').textContent = m.name; $('mkSub').textContent = m.sub;
+    $('mkFoot').textContent = m.name; $('mkMeta').textContent = m.meta; $('mkToast').textContent = m.toast;
+    $('devUrl').textContent = 'goldoffer.onrender.com/site/' + m.slug;
+    setPhoto($('mkHero'), m.prof, m.hue);
+    $('mkGrid').innerHTML = m.cards.map((c, k) =>
+      '<div class="m-card' + (k === 0 ? ' ann' : '') + '"' + (k === 0 ? ' style="--c:var(--lagoon);--s:.55" data-label="Offer with photo and price"' : '') + '>' +
+      '<div class="ph" data-k="' + k + '"></div><h5>' + esc(c[0]) + '</h5><p>' + esc(c[1]) + '</p>' +
+      '<div class="row"><span class="pr">&euro;' + esc(c[2]) + '</span><span class="rq">Request</span></div></div>').join('');
+    $('mkGrid').querySelectorAll('.ph').forEach((el, k) => setPhoto(el, m.cards[k][3], (m.hue + k * 35) % 360));
+    [...$('profDots').children].forEach((d, k) => d.classList.toggle('on', k === i));
+  }
+
+  // ---------- Moving photo tiles, markers, reveal, counters ----------
+  const TILES = [
+    ['Barber', 4, 12, 150, 190, 1.3], ['Plumber', 28, 6, 120, 150, .8], ['Florist', 52, 10, 170, 210, 1.5], ['Dentist', 78, 4, 130, 160, .9],
+    ['Restaurant', 10, 52, 140, 170, 1.1], ['Photographer', 36, 62, 170, 200, 1.6], ['Auto mechanic', 63, 56, 140, 180, .7], ['Bakery', 84, 50, 150, 190, 1.2],
+    ['Tailor', 20, 78, 120, 150, .9], ['Veterinarian', 70, 78, 130, 160, 1.4]
+  ];
+  function initScatter() {
+    const box = $('scatter');
+    box.insertAdjacentHTML('afterbegin', TILES.map(t =>
+      '<div class="tile" data-photo="' + esc(t[0]) + '" data-sp="' + t[5] + '" style="left:' + t[1] + '%;top:' + t[2] + '%;width:' + t[3] + 'px;height:' + t[4] + 'px"><span>' + esc(t[0]) + '</span></div>').join(''));
+    const an = $('annot'); let h = '';
+    for (let i = 0; i < 16; i++) h += '<i class="mk' + (i % 3 === 0 ? ' tri' : '') + '" style="left:' + (8 + Math.random() * 84).toFixed(0) + '%;top:' + (8 + Math.random() * 84).toFixed(0) + '%;animation-delay:-' + (Math.random() * 7).toFixed(1) + 's"></i>';
+    for (let i = 0; i < 3; i++) h += '<i class="mk big" style="left:' + (18 + i * 26) + '%;top:' + (24 + (i % 2) * 34) + '%;animation-delay:-' + (i * 2.2) + 's"></i>';
+    an.insertAdjacentHTML('beforeend', h);
+    frameFns.push(function () {
+      if (box.offsetParent === null) return;
+      const r = box.getBoundingClientRect(), vh = window.innerHeight;
+      const p = clamp((vh - r.top) / (vh + r.height));
+      box.querySelectorAll('.tile').forEach(t => {
+        const sp = +t.dataset.sp;
+        const y = (0.5 - p) * sp * 360;
+        const s = .55 + .62 * Math.sin(Math.PI * p);
+        t.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(' + s.toFixed(3) + ')';
+      });
+    });
+  }
+  function initReveal() {
+    if (!('IntersectionObserver' in window)) { document.querySelectorAll('.rv').forEach(e => e.classList.add('shown')); return; }
+    const io = new IntersectionObserver((es) => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('shown'); io.unobserve(e.target);
+      e.target.querySelectorAll('[data-to]').forEach(countUp);
+    }), { threshold: .12 });
+    document.querySelectorAll('.rv').forEach(e => io.observe(e));
+  }
+  function countUp(el) {
+    const to = +el.dataset.to, t0 = performance.now(), dur = 1500;
+    (function step(now) {
+      const k = clamp((now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(to * e);
+      if (k < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  // ---------- Photos from Wikipedia ----------
+  function paintPhotos() {
+    document.querySelectorAll('[data-photo]').forEach(el => {
+      const u = S.photos[el.dataset.photo];
+      if (u) el.style.backgroundImage = 'url("' + u.replace(/"/g, '%22') + '"), var(--fb, linear-gradient(135deg,#2b3550,#141a2a))';
+    });
+  }
+  function phStyle(name, i) {
+    const hue = (i * 47) % 360;
+    const fb = mockGradient(hue);
+    const u = S.photos[name];
+    return '--fb:' + fb + ';background-image:' + (u ? 'url(&quot;' + esc(u) + '&quot;),' : '') + fb;
+  }
+  function renderMarquee() {
+    const box = $('marq'); if (!box) return;
+    $('profCount').textContent = PROFESSIONS.length;
+    const card = (p, i) => '<button type="button" class="pcard" data-n="' + esc(p[0]) + '"><div class="ph" style="' + phStyle(p[0], i) + '"></div><span>' + esc(p[0]) + '</span></button>';
+    const half = Math.ceil(PROFESSIONS.length / 2);
+    const rowA = PROFESSIONS.slice(0, half).map((p, i) => card(p, i)).join('');
+    const rowB = PROFESSIONS.slice(half).map((p, i) => card(p, i + half)).join('');
+    box.innerHTML = '<div class="marq-row">' + rowA + rowA + '</div><div class="marq-row rev">' + rowB + rowB + '</div>';
+  }
+  $('marq').addEventListener('click', (e) => { const b = e.target.closest('.pcard'); if (b) pickProf(b.dataset.n); });
+  function renderGallery() {
+    const q = ($('gSearch').value || '').trim().toLowerCase();
+    const list = PROFESSIONS.map((p, i) => ({ p, i })).filter(x => !q || x.p[0].toLowerCase().includes(q) || x.p[1].includes(q));
+    $('gGrid').innerHTML = list.length
+      ? list.map(x => '<button type="button" class="gtile" data-n="' + esc(x.p[0]) + '"><div class="ph" style="' + phStyle(x.p[0], x.i) + '"></div><span>' + esc(x.p[0]) + '</span></button>').join('')
+      : '<p class="note">No profession found. Open the builder to type your own.</p>';
+  }
+  $('gGrid').addEventListener('click', (e) => { const b = e.target.closest('.gtile'); if (b) pickProf(b.dataset.n); });
+
+  async function loadProfPhotos() {
+    const done = () => { renderProfs(); renderMarquee(); renderGallery(); paintPhotos(); applyMock(activeMock); };
+    try {
+      const cached = JSON.parse(localStorage.getItem('profPhotos_v1') || 'null');
+      if (cached && Object.keys(cached).length > 10) { S.photos = cached; done(); return; }
+    } catch (e) {}
+    const names = Object.keys(WIKI);
+    const found = {};
+    for (let i = 0; i < names.length; i += 25) {
+      const chunk = names.slice(i, i + 25);
+      const titles = chunk.map(n => WIKI[n]);
+      const url = 'https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&redirects=1&prop=pageimages&piprop=thumbnail&pithumbsize=480&titles=' + encodeURIComponent(titles.join('|'));
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const q = data.query || {};
+        const norm = {}; (q.normalized || []).forEach(x => norm[x.from] = x.to);
+        const redir = {}; (q.redirects || []).forEach(x => redir[x.from] = x.to);
+        const byTitle = {}; Object.values(q.pages || {}).forEach(p => { if (p.thumbnail) byTitle[p.title] = p.thumbnail.source; });
+        chunk.forEach(n => {
+          let t = WIKI[n]; t = norm[t] || t; t = redir[t] || t;
+          if (byTitle[t]) found[n] = byTitle[t];
+        });
+      } catch (e) {}
+    }
+    S.photos = found;
+    if (Object.keys(found).length) { try { localStorage.setItem('profPhotos_v1', JSON.stringify(found)); } catch (e) {} }
+    done();
+  }
+
+  // ---------- Theme and font pickers ----------
+  function buildPickers() {
+    $('swatches').innerHTML = THEMES.map(t =>
+      '<button type="button" class="sw' + (t[0] === S.theme ? ' selected' : '') + '" style="background:' + t[2] + '" title="' + t[1] + '" data-t="' + t[0] + '"></button>').join('');
+    $('swatches').onclick = (e) => { const b = e.target.closest('.sw'); if (b) applyTheme(b.dataset.t); };
+    $('fonts').innerHTML = FONTS.map(f =>
+      '<button type="button" class="fbtn' + (f[0] === S.font ? ' selected' : '') + '" data-f="' + f[0] + '"><span style="font-family:' + f[3] + '">' + f[1] + '</span><small>' + f[2] + '</small></button>').join('');
+    $('fonts').onclick = (e) => { const b = e.target.closest('.fbtn'); if (b) applyFont(b.dataset.f); };
+  }
+  function applyTheme(t) {
+    if (!THEMES.some(x => x[0] === t)) t = 'gold';
+    S.theme = t;
+    document.body.className = document.body.className.replace(/theme-\S+/g, '').trim() + ' theme-' + t;
+    document.querySelectorAll('#swatches .sw').forEach(b => b.classList.toggle('selected', b.dataset.t === t));
+    if (S.chart && S.lastMonthly) drawChart(S.lastMonthly);
+  }
+  function applyFont(f) {
+    if (!FONTS.some(x => x[0] === f)) f = 'sans';
+    S.font = f;
+    document.body.className = document.body.className.replace(/font-\S+/g, '').trim() + ' font-' + f;
+    document.querySelectorAll('#fonts .fbtn').forEach(b => b.classList.toggle('selected', b.dataset.f === f));
+  }
+
+  // ---------- Builder: profession picker ----------
+  function renderProfs() {
+    const q = $('profSearch').value.trim().toLowerCase();
+    const list = PROFESSIONS.map((p, i) => ({ name: p[0], kw: p[1], i })).filter(p => !q || p.name.toLowerCase().includes(q) || p.kw.includes(q));
+    const grid = $('profGrid');
+    if (!list.length) {
+      const typed = $('profSearch').value.trim();
+      grid.innerHTML = '<div class="no-match" style="grid-column:1/-1">No profession found for "' + esc(typed) + '".<br><br>' +
+        '<button type="button" class="btn" onclick="useCustom()">Use "' + esc(typed) + '" as my profession</button></div>';
+      return;
+    }
+    grid.innerHTML = list.map(p =>
+      '<button type="button" class="prof' + (S.category === p.name ? ' selected' : '') + '" data-n="' + esc(p.name) + '">' +
+      '<div class="pic">' + (S.photos[p.name]
+        ? '<img loading="lazy" alt="' + esc(p.name) + '" src="' + esc(S.photos[p.name]) + '" onerror="this.parentNode.textContent=\'' + esc(p.name.charAt(0)) + '\'">'
+        : esc(p.name.charAt(0))) + '</div>' +
+      '<div class="name">' + esc(p.name) + '</div></button>').join('');
+  }
+  $('profGrid').addEventListener('click', (e) => {
+    const b = e.target.closest('.prof'); if (!b) return;
+    setCategory(b.dataset.n);
+    document.querySelectorAll('#profGrid .prof').forEach(x => x.classList.toggle('selected', x === b));
+  });
+  function setCategory(name) {
+    S.category = name;
+    $('selLine').innerHTML = name ? 'Selected: <b>' + esc(name) + '</b>' : 'No profession selected yet.';
+    renderPreview();
+  }
+  function useCustom() {
+    const v = $('profSearch').value.trim();
+    if (v) { setCategory(v); notify('Profession set to "' + v + '". Press Continue.', 'Saved'); }
+  }
+
+  // ---------- Auth ----------
+  function renderAuth() {
+    const a = $('authArea');
+    if (S.user) {
+      a.innerHTML = '<span class="who">' + esc(S.user.firstName || S.user.email) + '</span><a class="btn-ghost" href="/dashboard" data-link>Dashboard</a><button class="btn-ghost" onclick="logout()">Log out</button>';
+    } else {
+      a.innerHTML = '<button class="btn-ghost" onclick="openAuth(\'login\')">Log in</button><button class="btn" onclick="openAuth(\'signup\')">Get started</button>';
+    }
+  }
+  function openAuth(mode) { closeMenus(); $('nav').classList.remove('open'); S.mode = mode; applyAuthMode(); $('authErr').textContent = ''; $('authModal').style.display = 'flex'; }
+  function closeAuth() { $('authModal').style.display = 'none'; }
+  function toggleAuthMode() { S.mode = S.mode === 'login' ? 'signup' : (S.mode === 'forgot' ? 'login' : 'login'); $('authErr').textContent = ''; applyAuthMode(); }
+  function openForgot() { S.mode = 'forgot'; $('authErr').textContent = ''; applyAuthMode(); }
+  function applyAuthMode() {
+    const su = S.mode === 'signup', fg = S.mode === 'forgot';
+    $('authTitle').textContent = su ? 'Sign up' : (fg ? 'Reset password' : 'Log in');
+    $('nameFields').style.display = su ? 'block' : 'none';
+    $('confirmField').style.display = su ? 'block' : 'none';
+    $('consentField').style.display = su ? 'flex' : 'none';
+    $('passField').style.display = fg ? 'none' : 'block';
+    $('aPass').required = !fg;
+    $('forgotLink').style.display = S.mode === 'login' ? 'block' : 'none';
+    $('authSubmit').textContent = su ? 'Create account' : (fg ? 'Send reset link' : 'Log in');
+    $('authSwitch').textContent = su ? 'I already have an account' : (fg ? 'Back to log in' : 'Create a new account');
+    $('aPass').autocomplete = su ? 'new-password' : 'current-password';
+  }
+  async function submitAuth(e) {
+    e.preventDefault();
+    const su = S.mode === 'signup';
+    const email = $('aEmail').value.trim();
+    const password = $('aPass').value;
+    $('authErr').textContent = '';
+    if (S.mode === 'forgot') {
+      if (!email) { $('authErr').textContent = 'Please enter your email.'; return; }
+      const fb = $('authSubmit'); fb.disabled = true;
+      try {
+        const d = await api('/api/auth/forgot', { method: 'POST', body: JSON.stringify({ email }) });
+        closeAuth(); $('authForm').reset(); notify(d.message, 'Reset password');
+      } catch (err) { $('authErr').textContent = err.message; }
+      fb.disabled = false; return;
+    }
+    if (su) {
+      if (!$('aConsent').checked) { $('authErr').textContent = 'Please accept the Terms and the Privacy Policy.'; return; }
+      if (!$('aFirst').value.trim()) { $('authErr').textContent = 'Please enter your first name.'; return; }
+      if (password.length < 8) { $('authErr').textContent = 'Password must be at least 8 characters.'; return; }
+      if (password !== $('aPass2').value) { $('authErr').textContent = 'Passwords do not match.'; return; }
+    }
+    const btn = $('authSubmit'); btn.disabled = true;
+    try {
+      const body = su ? { firstName: $('aFirst').value.trim(), lastName: $('aLast').value.trim(), email, password, acceptTerms: true } : { email, password };
+      const data = await api(su ? '/api/auth/register' : '/api/auth/login', { method: 'POST', body: JSON.stringify(body) });
+      S.token = data.token; localStorage.setItem('token', data.token); S.user = data.user;
+      closeAuth(); $('authForm').reset();
+      await afterLogin();
+    } catch (err) { $('authErr').textContent = err.message; }
+    finally { btn.disabled = false; }
+  }
+  function logout(silent) {
+    S.token = null; S.user = null; S.offers = []; S.category = '';
+    localStorage.removeItem('token');
+    renderAuth(); setCategory(''); renderProfs(); renderOfferList(); resetDashboard(); goStep(0);
+    if (silent !== true) notify('You have been logged out.');
+  }
+  async function afterLogin() {
+    renderAuth();
+    const u = S.user;
+    if (u.siteName) $('siteName').value = u.siteName;
+    if (u.city) $('city').value = u.city;
+    if (u.category) { setCategory(u.category); renderProfs(); }
+    if (u.theme) applyTheme(u.theme);
+    if (u.font) applyFont(u.font);
+    try { const d = await api('/api/offers'); S.offers = d.offers; } catch (e) {}
+    renderPreview(); renderOfferList();
+    if (u.published && u.siteUrl) showLive();
+    if (currentPage === 'dashboard') loadDashboard();
+  }
+
+  // ---------- Builder steps ----------
+  function goStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    $('step-' + n).classList.add('active');
+    $('nodes').style.display = (n >= 1 && n <= 4) ? 'flex' : 'none';
+    for (let i = 1; i <= 4; i++) {
+      const el = $('n' + i);
+      el.classList.toggle('active', i === n);
+      el.classList.toggle('done', i < n);
+    }
+  }
+  function startWizard() { if (!S.user) { openAuth('signup'); return; } goStep(1); }
+  function step1Next() {
+    if (!$('city').value.trim()) return notify('Please enter your city.');
+    if (!S.category) return notify('Please choose a profession from the list or search for yours.');
+    goStep(2);
+  }
+  async function step2Next() {
+    if (!$('siteName').value.trim()) return notify('Please enter a site name.');
+    try {
+      const d = await api('/api/site', { method: 'PUT', body: JSON.stringify({
+        siteName: $('siteName').value.trim(), category: S.category, city: $('city').value.trim(), theme: S.theme, font: S.font }) });
+      S.user = d.user;
+    } catch (e) { return notify(e.message, 'Error'); }
+    goStep(3);
+  }
+
+  // ---------- Offers ----------
+  function offerLimit() { return (S.user && S.user.offerLimit) || 10; }
+  function isPaid() { return !!(S.user && S.user.subscriptionStatus === 'active'); }
+  function renderLimitInfo() {
+    const el = $('offerLimit'); if (!el) return;
+    const n = S.offers.length, max = offerLimit();
+    if (isPaid()) { el.textContent = 'Paid plan: ' + n + ' offers added.'; return; }
+    el.innerHTML = 'Free plan: <b>' + n + ' of ' + max + '</b> offers used.' +
+      (n >= max ? ' <button type="button" class="btn-ghost" style="padding:4px 10px;font-size:.8rem;margin-left:6px" onclick="payNow()">Upgrade for more</button>' : '');
+  }
+  function renderOfferList() {
+    renderLimitInfo();
+    const box = $('offerList');
+    if (!S.offers.length) { box.innerHTML = '<p class="note" style="margin:0 0 10px">No offers yet. Add your first one below.</p>'; return; }
+    box.innerHTML = S.offers.map(o =>
+      '<div class="offer-row"><div class="row" style="flex-wrap:nowrap">' +
+      (o.imageUrl ? '<span class="thumb sm"><img src="' + esc(o.imageUrl) + '" alt=""><button type="button" class="x" title="Remove photo" onclick="removeOfferImage(\'' + esc(o._id) + '\')">&times;</button></span>' : '') +
+      '<div><b>' + esc(o.title) + '</b><small>EUR ' + money(o.price) + '</small></div></div>' +
+      '<button class="btn-danger" onclick="removeOffer(\'' + esc(o._id) + '\')">Delete</button></div>').join('');
+  }
+  async function lookupPrice() {
+    const title = $('oTitle').value.trim();
+    if (!title) return notify('Enter a title first.');
+    const btn = $('aiBtn'); btn.disabled = true; btn.textContent = 'Searching...';
+    try {
+      const d = await api('/api/ai/market-price', { method: 'POST', body: JSON.stringify({ query: title, category: S.category, city: $('city').value.trim() || 'Bulgaria' }) });
+      if (!d.estimated && d.avgPrice) $('oPrice').value = Number(d.avgPrice).toFixed(2);
+      if (d.description && !$('oDesc').value) $('oDesc').value = d.description;
+      const r = $('oRange');
+      if (d.estimated) { r.style.display = 'block'; r.textContent = d.message; }
+      else if (d.minPrice != null && d.maxPrice != null) {
+        r.style.display = 'block';
+        r.textContent = 'Market range: EUR ' + money(d.minPrice) + ' to ' + money(d.maxPrice) + ' (average EUR ' + money(d.avgPrice) + ')';
+      }
+    } catch (e) { notify(e.message, 'Price lookup'); }
+    btn.disabled = false; btn.textContent = 'Check market price';
+  }
+  async function addOffer() {
+    if (!isPaid() && S.offers.length >= offerLimit()) {
+      return notify('The free plan allows up to ' + offerLimit() + ' offers. Upgrade to add more.', 'Limit reached');
+    }
+    const title = $('oTitle').value.trim();
+    if (!title) return notify('Please enter a title.');
+    const price = parseFloat($('oPrice').value);
+    if (!isFinite(price) || price < 0) return notify('Please enter a valid price.');
+    const btn = $('addOfferBtn'); btn.disabled = true; btn.textContent = 'Saving...';
+    try {
+      let imageUrl = null;
+      const file = $('oImg').files[0];
+      if (file) {
+        const fd = new FormData(); fd.append('file', file);
+        const res = await fetch(API + '/api/upload', { method: 'POST', headers: { Authorization: 'Bearer ' + S.token }, body: fd });
+        const up = await res.json();
+        if (!res.ok) throw new Error(up.message || 'Image upload failed');
+        imageUrl = up.url;
+      }
+      const d = await api('/api/offers', { method: 'POST', body: JSON.stringify({ title, price, description: $('oDesc').value.trim(), imageUrl }) });
+      S.offers.unshift(d.offer);
+      ['oTitle', 'oPrice', 'oDesc', 'oImg'].forEach(i => $(i).value = '');
+      clearPhoto();
+      $('oRange').style.display = 'none';
+      renderOfferList(); renderPreview();
+    } catch (e) { notify(e.message, 'Error'); }
+    btn.disabled = false; btn.textContent = 'Add offer';
+  }
+  async function removeOffer(id) {
+    try {
+      await api('/api/offers/' + id, { method: 'DELETE' });
+      S.offers = S.offers.filter(o => o._id !== id);
+      renderOfferList(); renderPreview();
+    } catch (e) { notify(e.message, 'Error'); }
+  }
+  function previewPhoto() {
+    const f = $('oImg').files[0];
+    if (!f) return clearPhoto();
+    $('oImgPrevImg').src = URL.createObjectURL(f);
+    $('oImgPrev').style.display = 'inline-block';
+  }
+  function clearPhoto() {
+    $('oImg').value = '';
+    $('oImgPrevImg').removeAttribute('src');
+    $('oImgPrev').style.display = 'none';
+  }
+  async function removeOfferImage(id) {
+    try {
+      const d = await api('/api/offers/' + id + '/image', { method: 'DELETE' });
+      S.offers = S.offers.map(o => o._id === id ? d.offer : o);
+      renderOfferList(); renderPreview();
+    } catch (e) { notify(e.message, 'Error'); }
+  }
+
+  // ---------- Preview (real data only) ----------
+  function renderPreview() {
+    const name = $('siteName').value.trim() || (S.user && S.user.siteName) || '';
+    $('pvName').textContent = name || 'Your brand';
+    $('pvCat').textContent = S.category || 'Business category';
+    $('pvUrl').textContent = (S.user && S.user.siteUrl) ? S.user.siteUrl.replace('https://', '') : 'your-site';
+    const box = $('pvOffers');
+    if (!S.offers.length) { box.innerHTML = '<div class="empty">No offers added yet.<br>Your real offers will appear here.</div>'; return; }
+    box.innerHTML = S.offers.map(o =>
+      '<div class="p-item">' + (o.imageUrl ? '<img src="' + esc(o.imageUrl) + '" alt="">' : '') +
+      '<h5>' + esc(o.title) + '</h5><div class="price">EUR ' + money(o.price) + '</div><p>' + esc(o.description) + '</p></div>').join('');
+  }
+
+  // ---------- Publishing ----------
+  async function publishSite() {
+    if (!S.offers.length) return notify('Add at least one offer before publishing.');
+    try { const d = await api('/api/site', { method: 'PUT', body: JSON.stringify({ publish: true }) }); S.user = d.user; showLive(); }
+    catch (e) { notify(e.message, 'Error'); }
+  }
+  function showLive() {
+    const url = S.user.siteUrl;
+    $('siteUrlBox').innerHTML = '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(url) + '</a>';
+    $('slugInput').value = S.user.slug || '';
+    renderPreview(); goStep(4);
+  }
+  function copyUrl() { navigator.clipboard.writeText(S.user.siteUrl).then(() => notify('Link copied.')); }
+  async function changeSlug() {
+    const slug = $('slugInput').value.trim();
+    if (!slug) return notify('Please enter a name.');
+    try { const d = await api('/api/site/slug', { method: 'PUT', body: JSON.stringify({ slug }) }); S.user = d.user; showLive(); notify('Address updated.'); }
+    catch (e) { notify(e.message, 'Error'); }
+  }
+  async function payNow() {
+    try { const d = await api('/api/stripe/create-checkout', { method: 'POST' }); if (d.url) window.location.href = d.url; }
+    catch (e) { notify(e.message, 'Error'); }
+  }
+
+  // ---------- Dashboard (real data) ----------
+  function resetDashboard() {
+    $('sRevenue').textContent = '0.00 EUR'; $('sCompleted').textContent = '0'; $('sPending').textContent = '0'; $('sOffers').textContent = '0';
+    $('orderRows').innerHTML = '';
+    if (S.chart) { S.chart.destroy(); S.chart = null; }
+    if (currentPage === 'dashboard') loadDashboard();
+  }
+  async function loadDashboard() {
+    $('dashGate').style.display = S.user ? 'none' : 'block';
+    $('dashBody').style.display = S.user ? 'block' : 'none';
+    if (!S.user) return;
+    try {
+      const d = await api('/api/dashboard/stats');
+      $('sRevenue').textContent = money(d.totalRevenue) + ' EUR';
+      $('sCompleted').textContent = d.completedOrders;
+      $('sPending').textContent = d.pendingOrders;
+      $('sOffers').textContent = d.offersCount;
+      S.lastMonthly = d.monthly; drawChart(d.monthly);
+      $('orderRows').innerHTML = d.recentOrders.length ? d.recentOrders.map(o =>
+        '<tr><td>' + esc(o.offerTitle) + '<br><small style="color:var(--mute)">' + esc(o.customerName) + ' ' + esc(o.customerContact) + '</small></td>' +
+        '<td>' + money(o.amount) + '</td><td><span class="pill ' + esc(o.status) + '">' + esc(o.status) + '</span></td>' +
+        '<td>' + (o.status === 'Pending' ? '<button class="btn-ghost" style="padding:5px 10px;font-size:.75rem" onclick="setOrder(\'' + esc(o._id) + '\',\'Completed\')">Complete</button>' : '') + '</td></tr>'
+      ).join('') : '<tr><td colspan="4" style="color:var(--mute);text-align:center">No orders yet.</td></tr>';
+    } catch (e) { notify(e.message, 'Dashboard'); }
+  }
+  async function setOrder(id, status) {
+    try { await api('/api/orders/' + id, { method: 'PATCH', body: JSON.stringify({ status }) }); loadDashboard(); }
+    catch (e) { notify(e.message, 'Error'); }
+  }
+  function drawChart(monthly) {
+    if (S.chart) S.chart.destroy();
+    const line = getComputedStyle(document.body).getPropertyValue('--ta').trim() || '#4fe3cf';
+    S.chart = new Chart($('chart').getContext('2d'), {
+      type: 'line',
+      data: { labels: monthly.map(m => m.label), datasets: [{ label: 'Revenue (EUR)', data: monthly.map(m => m.revenue), borderColor: line, backgroundColor: 'transparent', tension: 0.35, borderWidth: 3, pointBackgroundColor: line }] },
+      options: { plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,.07)' }, ticks: { color: '#8b94a5' } }, y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.07)' }, ticks: { color: '#8b94a5' } } } }
+    });
+  }
+
+  // ---------- Reset password (link from the email: /reset?token=...) ----------
+  function prepareReset() {
+    const token = new URLSearchParams(location.search).get('token');
+    $('resetErr').textContent = token ? '' : 'This reset link is invalid or has expired.';
+    $('resetBtn').disabled = !token;
+  }
+  async function submitReset(e) {
+    e.preventDefault();
+    const token = new URLSearchParams(location.search).get('token');
+    const p = $('rPass').value;
+    $('resetErr').textContent = '';
+    if (p.length < 8) { $('resetErr').textContent = 'Password must be at least 8 characters.'; return; }
+    if (p !== $('rPass2').value) { $('resetErr').textContent = 'Passwords do not match.'; return; }
+    const btn = $('resetBtn'); btn.disabled = true;
+    try {
+      const d = await api('/api/auth/reset', { method: 'POST', body: JSON.stringify({ token, password: p }) });
+      S.token = d.token; localStorage.setItem('token', d.token); S.user = d.user;
+      $('rPass').value = ''; $('rPass2').value = '';
+      await afterLogin();
+      navigate('/build');
+      notify('Your password was changed. You are logged in.', 'Done');
+    } catch (err) { $('resetErr').textContent = err.message; }
+    btn.disabled = false;
+  }
+
+  // ---------- Language of the legal pages (the Privacy Policy and Terms exist in Bulgarian and English) ----------
+  function setLegalLang(l) { try { localStorage.setItem('lang', l); } catch (e) {} document.body.dataset.lang = l; }
+  (function () { let l = 'bg'; try { l = localStorage.getItem('lang') || 'bg'; } catch (e) {} document.body.dataset.lang = l === 'en' ? 'en' : 'bg'; })();
+
+  // ---------- Start ----------
+  async function init() {
+    initMenu();
+    frameFns.push(setNavTheme);
+    initStage(); initScatter(); initReveal();
+    buildPickers(); renderProfs(); renderMarquee(); renderGallery(); paintPhotos(); loadProfPhotos(); renderAuth(); renderPreview();
+    navigate(location.pathname, false);
+    if (S.token) {
+      try { const d = await api('/api/auth/me'); S.user = d.user; await afterLogin(); } catch (e) { renderAuth(); }
+    }
+    if (new URLSearchParams(location.search).get('paid')) notify('Thank you. Your subscription is being activated.', 'Payment received');
+  }
+  init();
+</script>
+</body>
+</html>
